@@ -47,12 +47,12 @@ export const calculateInvestmentGrowth = (investment: Investment): InvestmentWit
 };
 
 /**
- * Format currency for display
+ * Format currency for display based on currency code
  */
-export const formatCurrency = (value: number): string => {
+export const formatCurrency = (value: number, currencyCode: string = 'USD'): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: currencyCode,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }).format(value);

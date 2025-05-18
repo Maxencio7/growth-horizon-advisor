@@ -1,9 +1,11 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MenuIcon, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import CurrencySelector from '@/components/CurrencySelector';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import LoadingPage from '@/components/LoadingPage';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -12,7 +14,12 @@ interface AppLayoutProps {
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  
+  const { isLoading } = useCurrency();
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
   const navItems = [
     { name: 'Dashboard', path: '/' },
     { name: 'Add Investment', path: '/add-investment' },
@@ -52,6 +59,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 {item.name}
               </Link>
             ))}
+          </div>
+          {/* Add currency selector to the header */}
+          <div className="flex justify-between items-center">
+            <CurrencySelector />
           </div>
         </div>
       </header>

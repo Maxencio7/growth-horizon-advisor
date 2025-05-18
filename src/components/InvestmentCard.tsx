@@ -15,6 +15,7 @@ import {
 import { InvestmentWithProjections } from '@/types/investment';
 import { formatCurrency, formatPercentage } from '@/utils/investmentCalculator';
 import { useInvestments } from '@/contexts/InvestmentContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface InvestmentCardProps {
@@ -24,6 +25,7 @@ interface InvestmentCardProps {
 const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment }) => {
   const navigate = useNavigate();
   const { deleteInvestment } = useInvestments();
+  const { currency, currencySymbol } = useCurrency();
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const lastDataPoint = investment.projections[investment.projections.length - 1];
@@ -49,6 +51,14 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment }) => {
 
   const areaColor = getColorByRisk(investment.riskLevel);
 
+  const formatCurrencyWithSymbol = (value: number) => {
+    return formatCurrency(value, currency);
+  };
+
+  const formatAxisCurrency = (value: number) => {
+    return `${currencySymbol}${value / 1000}k`;
+  };
+
   return (
     <Card className="overflow-hidden">
       <CardHeader>
@@ -69,10 +79,10 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment }) => {
               />
               <YAxis 
                 tick={{ fontSize: 10 }} 
-                tickFormatter={(value) => `$${value / 1000}k`}
+                tickFormatter={formatAxisCurrency}
               />
               <Tooltip 
-                formatter={(value) => [formatCurrency(Number(value)), 'Value']}
+                formatter={(value) => [formatCurrencyWithSymbol(Number(value)), 'Value']}
                 labelFormatter={(label) => `Month ${label}`}
               />
               <Area 
@@ -88,7 +98,7 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment }) => {
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div>
             <p className="text-muted-foreground">Monthly:</p>
-            <p className="font-medium">{formatCurrency(investment.monthlyAmount)}</p>
+            <p className="font-medium">{formatCurrencyWithSymbol(investment.monthlyAmount)}</p>
           </div>
           <div>
             <p className="text-muted-foreground">Rate:</p>
@@ -116,15 +126,15 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment }) => {
           <div className="grid grid-cols-2 gap-2">
             <div>
               <p className="text-muted-foreground text-sm">Total Investment:</p>
-              <p className="font-semibold">{formatCurrency(investment.totalInvestment)}</p>
+              <p className="font-semibold">{formatCurrencyWithSymbol(investment.totalInvestment)}</p>
             </div>
             <div>
               <p className="text-muted-foreground text-sm">Final Value:</p>
-              <p className="font-semibold">{formatCurrency(lastDataPoint.value)}</p>
+              <p className="font-semibold">{formatCurrencyWithSymbol(lastDataPoint.value)}</p>
             </div>
             <div>
               <p className="text-muted-foreground text-sm">Return:</p>
-              <p className="font-semibold">{formatCurrency(investment.totalReturn)}</p>
+              <p className="font-semibold">{formatCurrencyWithSymbol(investment.totalReturn)}</p>
             </div>
             <div>
               <p className="text-muted-foreground text-sm">ROI:</p>

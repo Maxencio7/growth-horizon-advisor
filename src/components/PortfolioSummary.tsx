@@ -1,15 +1,17 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Investment, InvestmentWithProjections } from '@/types/investment';
 import { formatCurrency, formatPercentage } from '@/utils/investmentCalculator';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface PortfolioSummaryProps {
   investments: InvestmentWithProjections[];
 }
 
 const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ investments }) => {
+  const { currency } = useCurrency();
+  
   if (investments.length === 0) {
     return null;
   }
@@ -55,6 +57,10 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ investments }) => {
   const highestROI = sortedByROI[0];
   const lowestROI = sortedByROI[sortedByROI.length - 1];
 
+  const formatCurrencyWithSelectedCurrency = (value: number) => {
+    return formatCurrency(value, currency);
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -66,15 +72,15 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ investments }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-muted/30 p-4 rounded-lg">
               <p className="text-muted-foreground text-sm">Total Invested</p>
-              <p className="text-2xl font-bold">{formatCurrency(totalInvested)}</p>
+              <p className="text-2xl font-bold">{formatCurrencyWithSelectedCurrency(totalInvested)}</p>
             </div>
             <div className="bg-muted/30 p-4 rounded-lg">
               <p className="text-muted-foreground text-sm">Projected Value</p>
-              <p className="text-2xl font-bold">{formatCurrency(totalFinalValue)}</p>
+              <p className="text-2xl font-bold">{formatCurrencyWithSelectedCurrency(totalFinalValue)}</p>
             </div>
             <div className="bg-muted/30 p-4 rounded-lg">
               <p className="text-muted-foreground text-sm">Total Returns</p>
-              <p className="text-2xl font-bold">{formatCurrency(totalReturns)}</p>
+              <p className="text-2xl font-bold">{formatCurrencyWithSelectedCurrency(totalReturns)}</p>
             </div>
             <div className="bg-muted/30 p-4 rounded-lg">
               <p className="text-muted-foreground text-sm">Portfolio ROI</p>
@@ -104,7 +110,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ investments }) => {
                       ))}
                     </Pie>
                     <Tooltip 
-                      formatter={(value) => [formatCurrency(Number(value)), 'Value']}
+                      formatter={(value) => [formatCurrencyWithSelectedCurrency(Number(value)), 'Value']}
                     />
                     <Legend />
                   </PieChart>
@@ -137,7 +143,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ investments }) => {
                       })}
                     </Pie>
                     <Tooltip 
-                      formatter={(value) => [formatCurrency(Number(value)), 'Value']}
+                      formatter={(value) => [formatCurrencyWithSelectedCurrency(Number(value)), 'Value']}
                     />
                     <Legend />
                   </PieChart>
