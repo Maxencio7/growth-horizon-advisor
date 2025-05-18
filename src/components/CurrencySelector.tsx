@@ -19,6 +19,7 @@ const CurrencySelector: React.FC = () => {
     { value: 'CHF', label: 'Swiss Franc', icon: <SwissFranc className="h-4 w-4" /> },
     { value: 'RUB', label: 'Russian Ruble', icon: <RussianRuble className="h-4 w-4" /> },
     // African Currencies
+    { value: 'ZMW', label: 'Zambian Kwacha', icon: <DollarSign className="h-4 w-4" /> },
     { value: 'ZAR', label: 'South African Rand', icon: <DollarSign className="h-4 w-4" /> },
     { value: 'NGN', label: 'Nigerian Naira', icon: <DollarSign className="h-4 w-4" /> },
     { value: 'KES', label: 'Kenyan Shilling', icon: <DollarSign className="h-4 w-4" /> },
