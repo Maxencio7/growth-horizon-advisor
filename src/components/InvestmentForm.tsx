@@ -48,8 +48,8 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
     interestRate: 0,
     duration: 0,
     startDate: new Date(),
-    riskLevel: 'Medium',
-    type: 'Other',
+    riskLevel: 'Medium' as RiskLevel,
+    type: 'Other' as InvestmentType,
   };
 
   const form = useForm<InvestmentFormValues>({
@@ -59,8 +59,13 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
 
   const onSubmit = (values: InvestmentFormValues) => {
     if (existingInvestment) {
-      updateInvestment({ ...values, id: existingInvestment.id });
+      // Ensure all required fields are present when updating
+      updateInvestment({ 
+        ...values, 
+        id: existingInvestment.id 
+      });
     } else {
+      // Ensure all required fields are present when adding
       addInvestment(values);
     }
     navigate('/');
