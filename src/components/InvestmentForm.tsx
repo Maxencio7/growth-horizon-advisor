@@ -59,14 +59,18 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
 
   const onSubmit = (values: InvestmentFormValues) => {
     if (existingInvestment) {
-      // Ensure all required fields are present when updating
-      updateInvestment({ 
+      // Explicitly cast the combined object to Investment type to satisfy TypeScript
+      const updatedInvestment: Investment = { 
         ...values, 
         id: existingInvestment.id 
-      });
+      };
+      updateInvestment(updatedInvestment);
     } else {
-      // Ensure all required fields are present when adding
-      addInvestment(values);
+      // Cast the values to required Investment properties (minus id)
+      const newInvestment: Omit<Investment, 'id'> = {
+        ...values
+      };
+      addInvestment(newInvestment);
     }
     navigate('/');
   };

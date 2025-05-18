@@ -38,7 +38,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your investment advisor. I can help you understand your investments, calculate returns, and provide basic financial advice. What would you like to know?"
+      content: "Hello! I'm your investment advisor. I can help you understand your current investments, analyze your portfolio, and provide personalized financial advice based on your goals. What would you like to know today?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,8 +48,10 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     // Simple pattern matching for investment queries
     const lowerMessage = message.toLowerCase();
 
-    // Check for calculation requests
-    if (lowerMessage.includes('how much') && lowerMessage.includes('invest')) {
+    // If user asks for specific calculation
+    if ((lowerMessage.includes('how much') || lowerMessage.includes('calculate') || lowerMessage.includes('what if')) && 
+        (lowerMessage.includes('invest') || lowerMessage.includes('return') || lowerMessage.includes('earn'))) {
+      
       // Parse query like "How much will I earn if I invest $500 monthly at 8% for 60 months?"
       const amountMatch = message.match(/\$?(\d+,?\d*\.?\d*)/);
       const rateMatch = message.match(/(\d+\.?\d*)%/);
@@ -68,7 +70,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
         // Create temporary investment to calculate projections
         const tempInvestment: Investment = {
           id: 'temp',
-          name: 'Temporary Calculation',
+          name: 'Custom Calculation',
           monthlyAmount: amount,
           interestRate: rate,
           duration: duration,
@@ -79,21 +81,21 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
         
         const projections = calculateInvestmentGrowth(tempInvestment);
         
-        return `If you invest ${formatCurrency(amount)} monthly at ${formatPercentage(rate)} for ${duration} months:
+        return `Based on your specific scenario of investing ${formatCurrency(amount)} monthly at ${formatPercentage(rate)} for ${duration} months:
 
 - Total investment: ${formatCurrency(projections.totalInvestment)}
 - Final value: ${formatCurrency(projections.projections[projections.projections.length - 1].value)}
 - Total return: ${formatCurrency(projections.totalReturn)}
 - ROI: ${formatPercentage(projections.roi)}
 
-Would you like to add this as a new investment to your dashboard?`;
+Would you like to compare this to your existing investments or add this as a new investment to your dashboard?`;
       }
     }
     
-    // Portfolio summary
-    if (lowerMessage.includes('portfolio') || lowerMessage.includes('summary') || lowerMessage.includes('overview')) {
+    // Portfolio summary and analysis
+    if (lowerMessage.includes('portfolio') || lowerMessage.includes('summary') || lowerMessage.includes('overview') || lowerMessage.includes('analysis')) {
       if (investments.length === 0) {
-        return "You don't have any investments in your portfolio yet. Would you like to add one?";
+        return "You don't have any investments in your portfolio yet. Would you like guidance on starting your investment journey? I can help you understand different investment types and risk levels based on your financial goals.";
       }
       
       const totalInvested = investments.reduce((sum, inv) => sum + inv.totalInvestment, 0);
@@ -123,7 +125,7 @@ Would you like to add this as a new investment to your dashboard?`;
         typeBreakdown[inv.type] += inv.projections[inv.projections.length - 1].value;
       });
       
-      return `Portfolio Summary:
+      return `Portfolio Analysis:
 
 - Total investments: ${investments.length}
 - Total invested: ${formatCurrency(totalInvested)}
@@ -140,13 +142,15 @@ ${Object.entries(riskBreakdown)
 Investment Types:
 ${Object.entries(typeBreakdown)
   .map(([type, value]) => `- ${type}: ${formatCurrency(value)} (${formatPercentage((value / totalProjected) * 100)})`)
-  .join('\n')}`;
+  .join('\n')}
+
+Based on your current portfolio, I can provide personalized advice on diversification, risk management, or growth strategies. What specific aspect would you like more information about?`;
     }
     
-    // Advice on diversification
-    if (lowerMessage.includes('diversif') || lowerMessage.includes('allocat')) {
+    // Advice on diversification without changing user goals
+    if (lowerMessage.includes('diversif') || lowerMessage.includes('allocat') || lowerMessage.includes('advice')) {
       if (investments.length === 0) {
-        return "You don't have any investments in your portfolio yet, so I can't provide specific allocation advice. Generally, a well-diversified portfolio includes a mix of different asset classes like stocks, bonds, and possibly alternative investments, with allocations based on your risk tolerance and time horizon.";
+        return "You don't have any investments in your portfolio yet. Diversification is important for managing risk - it means spreading your investments across different asset types. When you're ready to add investments, I can provide specific guidance based on your financial goals and risk tolerance.";
       }
       
       // Check for risk concentration
@@ -174,23 +178,49 @@ ${Object.entries(typeBreakdown)
                                  (highestType[1] / investments.length > 0.7);
       
       if (needsDiversification) {
-        return `Your portfolio could benefit from more diversification. Currently, ${highestType[1]} out of ${investments.length} investments are in ${highestType[0]}.
+        return `While respecting your current investment choices and goals, I notice your portfolio has ${highestType[1]} out of ${investments.length} investments in ${highestType[0]}.
 
-A well-diversified portfolio typically includes:
-- A mix of stocks, bonds, and possibly alternative investments
-- Different sectors and industries
-- A balanced risk profile
+Some thoughts on diversification while maintaining your strategy:
+- Consider gradually adding different asset classes to reduce overall portfolio risk
+- Maintaining your current investments, you could explore complementary options 
+- Diversification can help protect against market volatility
 
-Consider adding investments in different asset classes to reduce overall portfolio risk.`;
+Would you like some specific suggestions for complementary investments that align with your current financial goals?`;
       } else {
-        return `Your portfolio appears to be well-diversified across ${Object.keys(typeCounts).length} different investment types, with a balanced approach to risk (${Object.entries(riskCounts).map(([risk, count]) => `${risk}: ${count}`).join(', ')}).
+        return `Your portfolio appears well-diversified across ${Object.keys(typeCounts).length} different investment types, with a thoughtful approach to risk (${Object.entries(riskCounts).map(([risk, count]) => `${risk}: ${count}`).join(', ')}).
 
-Continue monitoring your allocations as market conditions change, and remember to rebalance periodically to maintain your desired asset allocation.`;
+To maintain this healthy diversification while pursuing your goals:
+- Continue your disciplined approach to asset allocation
+- Consider periodic rebalancing to maintain your desired risk profile
+- Monitor performance against your personal investment timeline and goals
+
+Is there a specific aspect of your investment strategy you'd like to discuss further?`;
       }
+    }
+
+    // Goal tracking
+    if (lowerMessage.includes('goal') || lowerMessage.includes('target') || lowerMessage.includes('aim') || lowerMessage.includes('plan')) {
+      if (investments.length === 0) {
+        return "You haven't added any investments yet. Setting clear financial goals is an excellent first step! Would you like to discuss specific goals like retirement planning, saving for a home, education funding, or building wealth? I can help you understand what investment approach might best align with your timeframe and needs.";
+      }
+      
+      const totalProjected = investments.reduce((sum, inv) => {
+        const lastPoint = inv.projections[inv.projections.length - 1];
+        return sum + lastPoint.value;
+      }, 0);
+      
+      return `Based on your current investments, you're projected to accumulate ${formatCurrency(totalProjected)} over time.
+
+When setting financial goals, consider:
+- Short-term goals (1-3 years): Emergency funds, upcoming large purchases 
+- Medium-term goals (3-10 years): Home down payment, education costs
+- Long-term goals (10+ years): Retirement, legacy planning
+
+Would you like to explore how your current investment strategy aligns with a specific financial goal? I can help analyze whether adjustments might help you reach your targets more effectively while respecting your investment preferences.`;
     }
   
     // Return a generic response for other queries
-    return "I can help you understand your investments and financial goals. You can ask me questions like:\n\n- How much will I earn if I invest $500 monthly at 8% for 5 years?\n- Give me a summary of my portfolio\n- Should I diversify my investments?\n- What's my investment allocation?";
+    return "I'm here to help with your investment journey. You can ask me questions like:\n\n- How much will I earn if I invest $500 monthly at 8% for 5 years?\n- Give me an analysis of my portfolio\n- Should I diversify my investments?\n- How do my investments align with my goals?\n- What investment strategies might work for my timeframe?\n\nI'll provide insights based on your current investments without changing your established goals and preferences.";
   };
 
   const sendMessage = async (message: string) => {
@@ -235,7 +265,7 @@ Continue monitoring your allocations as market conditions change, and remember t
       {
         id: '1',
         role: 'assistant',
-        content: "Hello! I'm your investment advisor. I can help you understand your investments, calculate returns, and provide basic financial advice. What would you like to know?"
+        content: "Hello! I'm your investment advisor. I can help you understand your investments, analyze your portfolio, and provide personalized financial advice. What would you like to know today?"
       }
     ]);
   };

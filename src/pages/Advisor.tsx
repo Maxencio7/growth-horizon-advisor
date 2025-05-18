@@ -10,7 +10,7 @@ const Advisor: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">AI Investment Advisor</h1>
           <p className="text-muted-foreground">
-            Get personalized investment advice and answers to your financial questions
+            Get personalized investment advice and analysis based on your actual portfolio data
           </p>
         </div>
         
