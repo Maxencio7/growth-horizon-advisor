@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MenuIcon, X } from 'lucide-react';
@@ -27,20 +28,20 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-finance-light flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-10">
+      <header className="bg-gradient-premium border-b border-orange-900/20 shadow-md sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden"
+              className="md:hidden text-orange-500 hover:text-orange-400 hover:bg-black/20"
             >
               <MenuIcon className="h-5 w-5" />
             </Button>
-            <Link to="/" className="text-xl font-bold text-finance-primary">
+            <Link to="/" className="text-xl font-bold gradient-text">
               Investment Manager
             </Link>
           </div>
@@ -50,10 +51,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "font-medium hover:text-finance-primary transition-colors",
+                  "font-medium transition-colors",
                   location.pathname === item.path 
-                    ? "text-finance-primary border-b-2 border-finance-primary" 
-                    : "text-finance-neutral"
+                    ? "text-orange-400 border-b-2 border-orange-500" 
+                    : "text-gray-300 hover:text-orange-300"
                 )}
               >
                 {item.name}
@@ -72,24 +73,25 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         {/* Mobile sidebar */}
         <div 
           className={cn(
-            "fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden transition-opacity",
+            "fixed inset-0 bg-black/70 backdrop-blur-sm z-20 md:hidden transition-opacity",
             sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
           )}
           onClick={() => setSidebarOpen(false)}
         >
           <div 
             className={cn(
-              "absolute top-0 left-0 h-full w-64 bg-white transform transition-transform",
+              "absolute top-0 left-0 h-full w-64 bg-gradient-premium border-r border-orange-900/20 transform transition-transform",
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-4 flex justify-between items-center border-b">
-              <span className="font-semibold text-lg">Menu</span>
+            <div className="p-4 flex justify-between items-center border-b border-orange-900/20">
+              <span className="font-semibold text-lg text-orange-400">Menu</span>
               <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setSidebarOpen(false)}
+                className="text-orange-500 hover:text-orange-400 hover:bg-black/20"
               >
                 <X className="h-5 w-5" />
               </Button>
@@ -102,8 +104,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   className={cn(
                     "block py-2 px-4 rounded-md transition-colors",
                     location.pathname === item.path 
-                      ? "bg-finance-primary text-white" 
-                      : "text-finance-neutral hover:bg-gray-100"
+                      ? "bg-orange-500/20 text-orange-400" 
+                      : "text-gray-300 hover:bg-black/20 hover:text-orange-300"
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -115,7 +117,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         </div>
 
         {/* Desktop sidebar */}
-        <aside className="hidden md:block w-64 bg-white border-r shrink-0">
+        <aside className="hidden md:block w-64 bg-gradient-premium border-r border-orange-900/20 shrink-0">
           <nav className="p-4 space-y-2 sticky top-16">
             {navItems.map((item) => (
               <Link
@@ -124,8 +126,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 className={cn(
                   "block py-2 px-4 rounded-md transition-colors",
                   location.pathname === item.path 
-                    ? "bg-finance-primary text-white" 
-                    : "text-finance-neutral hover:bg-gray-100"
+                    ? "bg-orange-500/20 text-orange-400 border-l-2 border-orange-500" 
+                    : "text-gray-300 hover:bg-black/20 hover:text-orange-300"
                 )}
               >
                 {item.name}

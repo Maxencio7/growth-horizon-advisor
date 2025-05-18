@@ -64,13 +64,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				finance: {
-					primary: '#1D4ED8', // Strong blue for primary actions
-					secondary: '#0EA5E9', // Light blue for secondary elements
-					accent: '#10B981', // Green for positive growth indicators
-					danger: '#EF4444', // Red for negative indicators
-					neutral: '#64748B', // Neutral color for balanced elements
-					light: '#F8FAFC', // Light background
-					dark: '#1E293B', // Dark text
+					primary: '#F97316', // Change from blue to orange
+					secondary: '#FB923C', // Light orange for secondary elements
+					accent: '#10B981', // Keeping green for positive growth indicators
+					danger: '#EF4444', // Keeping red for negative indicators
+					neutral: '#94A3B8', // Lighter neutral color
+					light: '#0F0F0F', // Changed to dark background
+					dark: '#F5F5F5', // Changed to light text
 				}
 			},
 			borderRadius: {
@@ -99,6 +99,11 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			backgroundImage: {
+				'gradient-premium': 'linear-gradient(135deg, #0F0F0F 0%, #262626 100%)',
+				'gradient-orange': 'linear-gradient(90deg, #F97316 0%, #FB923C 100%)',
+				'gradient-card': 'linear-gradient(135deg, #1a1a1a 0%, #262626 100%)',
 			}
 		}
 	},
