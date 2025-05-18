@@ -1,7 +1,8 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'INR' | 'CHF' | 'RUB';
+export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'INR' | 'CHF' | 'RUB' | 
+                            'ZAR' | 'NGN' | 'KES' | 'EGP' | 'GHS' | 'MAD';
 
 interface CurrencyContextType {
   currency: CurrencyCode;
@@ -33,6 +34,13 @@ const getCurrencySymbol = (code: CurrencyCode): string => {
     case 'INR': return '₹';
     case 'CHF': return 'Fr';
     case 'RUB': return '₽';
+    // African currency symbols
+    case 'ZAR': return 'R';
+    case 'NGN': return '₦';
+    case 'KES': return 'KSh';
+    case 'EGP': return 'E£';
+    case 'GHS': return 'GH₵';
+    case 'MAD': return 'MAD';
     default: return '$';
   }
 };
