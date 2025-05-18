@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				finance: {
+					primary: '#1D4ED8', // Strong blue for primary actions
+					secondary: '#0EA5E9', // Light blue for secondary elements
+					accent: '#10B981', // Green for positive growth indicators
+					danger: '#EF4444', // Red for negative indicators
+					neutral: '#64748B', // Neutral color for balanced elements
+					light: '#F8FAFC', // Light background
+					dark: '#1E293B', // Dark text
 				}
 			},
 			borderRadius: {
