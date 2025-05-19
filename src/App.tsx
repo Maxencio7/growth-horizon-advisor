@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +12,7 @@ import Index from "./pages/Index";
 import AddInvestment from "./pages/AddInvestment";
 import EditInvestment from "./pages/EditInvestment";
 import Advisor from "./pages/Advisor";
+import UserGuidePage from "./pages/UserGuidePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +33,7 @@ const App = () => {
                   <Route path="/add-investment" element={<AddInvestment />} />
                   <Route path="/edit-investment/:id" element={<EditInvestment />} />
                   <Route path="/advisor" element={<Advisor />} />
+                  <Route path="/guide" element={<UserGuidePage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>

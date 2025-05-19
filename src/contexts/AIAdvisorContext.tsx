@@ -38,7 +38,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your investment advisor. I can help you understand your current investments, analyze your portfolio, and provide personalized financial advice based on your goals. What would you like to know today?"
+      content: "Hello! I'm your investment advisor. I can help you understand your current investments, analyze your portfolio, provide personalized financial advice, and recommend AI integrations for your investment strategy. What would you like to know today?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +47,26 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
   const generateResponse = async (message: string): Promise<string> => {
     // Simple pattern matching for investment queries
     const lowerMessage = message.toLowerCase();
+    
+    // AI Integration advice
+    if (lowerMessage.includes('ai') && 
+        (lowerMessage.includes('integration') || lowerMessage.includes('recommend') || 
+         lowerMessage.includes('technology') || lowerMessage.includes('tool'))) {
+      
+      return `Based on your investment portfolio and goals, here are some AI integration recommendations:
+
+### For Investment Analysis:
+- **Machine Learning Models**: For predicting market trends based on your current investments
+- **Natural Language Processing (NLP)**: To analyze financial news that might impact your portfolio
+- **Automated Trading Algorithms**: For executing trades based on predefined conditions
+
+### For Financial Planning:
+- **Robo-Advisors**: For automated portfolio management
+- **Predictive Analytics**: To forecast potential returns on different investment strategies
+- **Risk Assessment Tools**: To evaluate the risk level of your portfolio
+
+Would you like more information about any specific AI integration? I can provide detailed insights on implementation, benefits, and potential costs.`;
+    }
 
     // If user asks for specific calculation
     if ((lowerMessage.includes('how much') || lowerMessage.includes('calculate') || lowerMessage.includes('what if')) && 
@@ -220,7 +240,7 @@ Would you like to explore how your current investment strategy aligns with a spe
     }
   
     // Return a generic response for other queries
-    return "I'm here to help with your investment journey. You can ask me questions like:\n\n- How much will I earn if I invest $500 monthly at 8% for 5 years?\n- Give me an analysis of my portfolio\n- Should I diversify my investments?\n- How do my investments align with my goals?\n- What investment strategies might work for my timeframe?\n\nI'll provide insights based on your current investments without changing your established goals and preferences.";
+    return "I'm here to help with your investment journey and recommend AI integrations. You can ask me questions like:\n\n- How much will I earn if I invest $500 monthly at 8% for 5 years?\n- Give me an analysis of my portfolio\n- Should I diversify my investments?\n- How do my investments align with my goals?\n- What AI integrations would you recommend for my investment strategy?\n- What investment technologies might work for my portfolio?\n\nI'll provide insights based on your current investments without changing your established goals and preferences.";
   };
 
   const sendMessage = async (message: string) => {
@@ -265,7 +285,7 @@ Would you like to explore how your current investment strategy aligns with a spe
       {
         id: '1',
         role: 'assistant',
-        content: "Hello! I'm your investment advisor. I can help you understand your investments, analyze your portfolio, and provide personalized financial advice. What would you like to know today?"
+        content: "Hello! I'm your investment advisor. I can help you understand your investments, analyze your portfolio, provide personalized financial advice, and recommend AI integrations. What would you like to know today?"
       }
     ]);
   };

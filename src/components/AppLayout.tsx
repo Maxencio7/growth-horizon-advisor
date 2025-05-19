@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuIcon, X } from 'lucide-react';
+import { MenuIcon, X, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import CurrencySelector from '@/components/CurrencySelector';
+import UserGuide from '@/components/UserGuide';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import LoadingPage from '@/components/LoadingPage';
 
@@ -25,6 +26,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { name: 'Dashboard', path: '/' },
     { name: 'Add Investment', path: '/add-investment' },
     { name: 'AI Advisor', path: '/advisor' },
+    { name: 'User Guide', path: '/guide' },
   ];
 
   return (
@@ -141,6 +143,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           {children}
         </main>
       </div>
+      
+      {/* User Guide Floating Button - only show when not on guide page */}
+      {location.pathname !== '/guide' && <UserGuide />}
     </div>
   );
 };

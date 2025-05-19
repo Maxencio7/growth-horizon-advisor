@@ -70,4 +70,66 @@
   .glass-panel {
     @apply bg-black/40 backdrop-blur-sm border border-orange-900/30;
   }
+  
+  .bg-gradient-premium {
+    @apply bg-gradient-to-br from-black/90 to-black/70 backdrop-blur-sm;
+  }
+  
+  .bg-gradient-card {
+    @apply bg-gradient-to-br from-black/80 to-black/60;
+  }
+  
+  .bg-gradient-orange {
+    @apply bg-gradient-to-r from-orange-600 to-orange-500;
+  }
+}
+
+/* Premium gradient animations */
+.gradient-text {
+  background: linear-gradient(90deg, #F97316 0%, #FDBA74 50%, #F97316 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Investments grid with premium styling */
+.investments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Premium card hover effect */
+.premium-card-hover {
+  transition: all 0.3s ease;
+}
+
+.premium-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.1), 0 8px 10px -6px rgba(249, 115, 22, 0.1);
+}
+
+/* Floating help button animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(249, 115, 22, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
+  }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
 }
