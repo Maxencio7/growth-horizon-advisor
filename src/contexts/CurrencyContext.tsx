@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'INR' | 'CHF' | 'RUB' | 
-                            'ZAR' | 'NGN' | 'KES' | 'EGP' | 'GHS' | 'MAD';
+                            'ZAR' | 'NGN' | 'KES' | 'EGP' | 'GHS' | 'MAD' | 'ZMW';
 
 interface CurrencyContextType {
   currency: CurrencyCode;
@@ -41,6 +41,7 @@ const getCurrencySymbol = (code: CurrencyCode): string => {
     case 'EGP': return 'E£';
     case 'GHS': return 'GH₵';
     case 'MAD': return 'MAD';
+    case 'ZMW': return 'K'; // Adding Zambian Kwacha with symbol K
     default: return '$';
   }
 };
