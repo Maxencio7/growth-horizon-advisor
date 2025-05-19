@@ -17,7 +17,7 @@ const Advisor: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card className="glass-panel">
+          <Card className="glass-panel hover:shadow-lg transition-shadow">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-orange-500/20 p-3 rounded-full mb-3">
@@ -29,7 +29,7 @@ const Advisor: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="glass-panel">
+          <Card className="glass-panel hover:shadow-lg transition-shadow">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-orange-500/20 p-3 rounded-full mb-3">
@@ -41,7 +41,7 @@ const Advisor: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="glass-panel">
+          <Card className="glass-panel hover:shadow-lg transition-shadow">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-orange-500/20 p-3 rounded-full mb-3">
