@@ -3,18 +3,19 @@ import React from 'react';
 import AppLayout from '@/components/AppLayout';
 import AIAdvisorChat from '@/components/AIAdvisorChat';
 import { Card, CardContent } from '@/components/ui/card';
-import { Bot, BrainCircuit, Lightbulb } from 'lucide-react';
+import { Bot, BrainCircuit, Lightbulb, Sparkles } from 'lucide-react';
 
 const Advisor: React.FC = () => {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div>
+        <div className="flex items-center space-x-2">
           <h1 className="text-2xl font-bold tracking-tight">AI Investment Advisor</h1>
-          <p className="text-muted-foreground">
-            Get personalized investment advice, AI integration recommendations, and portfolio analysis
-          </p>
+          <Sparkles className="h-5 w-5 text-orange-400" />
         </div>
+        <p className="text-muted-foreground">
+          Get personalized investment advice, AI integration recommendations, and portfolio analysis powered by OpenAI
+        </p>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="glass-panel hover:shadow-lg transition-shadow">
