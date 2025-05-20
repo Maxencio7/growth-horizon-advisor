@@ -55,6 +55,14 @@
     @apply bg-background text-foreground;
     background-image: radial-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px);
     background-size: 40px 40px;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
   }
 }
 
@@ -82,6 +90,23 @@
   .bg-gradient-orange {
     @apply bg-gradient-to-r from-orange-600 to-orange-500;
   }
+  
+  /* Mobile-specific utility classes */
+  .mobile-container {
+    @apply px-4 py-3 md:px-6 md:py-4;
+  }
+  
+  .mobile-card {
+    @apply p-3 md:p-5;
+  }
+  
+  .mobile-text {
+    @apply text-sm md:text-base;
+  }
+  
+  .mobile-heading {
+    @apply text-xl md:text-2xl;
+  }
 }
 
 /* Premium gradient animations */
@@ -103,8 +128,15 @@
 /* Investments grid with premium styling */
 .investments-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .investments-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
 }
 
 /* Premium card hover effect */
@@ -132,4 +164,48 @@
 
 .pulse-animation {
   animation: pulse 2s infinite;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  .mobile-stack {
+    flex-direction: column;
+  }
+  
+  .mobile-full-width {
+    width: 100%;
+  }
+  
+  .mobile-center {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .mobile-compact {
+    padding: 0.5rem !important;
+    margin: 0.5rem !important;
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  h3 {
+    font-size: 1.125rem !important;
+  }
+  
+  p, span, button {
+    font-size: 0.875rem !important;
+  }
 }
