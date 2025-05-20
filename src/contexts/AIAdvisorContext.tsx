@@ -24,7 +24,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     {
       id: '1',
       role: 'assistant',
-      content: "Hi there! I'm your AI investment advisor. I can analyze your portfolio, suggest AI integration strategies, and help with financial planning. What would you like to know today?"
+      content: "Hello! 👋 I'm your virtual assistant from Visionary Enterprises. I'm here to help answer your questions about our investment services, portfolio management options, and more. How can I assist you today?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +81,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
       {
         id: '1',
         role: 'assistant',
-        content: "Hi there! I'm your AI investment advisor. I can analyze your portfolio, suggest AI integration strategies, and help with financial planning. What would you like to know today?"
+        content: "Hello! 👋 I'm your virtual assistant from Visionary Enterprises. I'm here to help answer your questions about our investment services, portfolio management options, and more. How can I assist you today?"
       }
     ]);
   };

@@ -3,7 +3,7 @@ import React from 'react';
 import AppLayout from '@/components/AppLayout';
 import AIAdvisorChat from '@/components/AIAdvisorChat';
 import { Card, CardContent } from '@/components/ui/card';
-import { Bot, BrainCircuit, Lightbulb, Sparkles } from 'lucide-react';
+import { MessageSquare, HelpCircle, Search, ListCheck } from 'lucide-react';
 
 const Advisor: React.FC = () => {
   return (
@@ -12,11 +12,11 @@ const Advisor: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div className="mb-4 sm:mb-0">
             <div className="flex items-center space-x-2">
-              <h1 className="text-2xl font-bold tracking-tight bg-gradient-orange bg-clip-text text-transparent">AI Investment Advisor</h1>
-              <Sparkles className="h-5 w-5 text-orange-400" />
+              <h1 className="text-2xl font-bold tracking-tight bg-gradient-orange bg-clip-text text-transparent">Ask Our Virtual Assistant</h1>
+              <MessageSquare className="h-5 w-5 text-orange-400" />
             </div>
             <p className="text-muted-foreground mt-1">
-              Get personalized investment advice powered by advanced AI
+              Get quick answers to all your questions about Visionary Enterprises
             </p>
           </div>
         </div>
@@ -26,10 +26,10 @@ const Advisor: React.FC = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-orange-500/20 p-3 rounded-full mb-3 shadow-inner">
-                  <Bot className="h-6 w-6 text-orange-400" />
+                  <HelpCircle className="h-6 w-6 text-orange-400" />
                 </div>
-                <h3 className="font-medium text-orange-300 mb-1">Portfolio Analysis</h3>
-                <p className="text-sm text-muted-foreground">Get personalized insights based on your current investments</p>
+                <h3 className="font-medium text-orange-300 mb-1">Instant Support</h3>
+                <p className="text-sm text-muted-foreground">Get immediate answers to your frequently asked questions</p>
               </div>
             </CardContent>
           </Card>
@@ -38,10 +38,10 @@ const Advisor: React.FC = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-orange-500/20 p-3 rounded-full mb-3 shadow-inner">
-                  <BrainCircuit className="h-6 w-6 text-orange-400" />
+                  <Search className="h-6 w-6 text-orange-400" />
                 </div>
-                <h3 className="font-medium text-orange-300 mb-1">AI Integration</h3>
-                <p className="text-sm text-muted-foreground">Discover AI tools to enhance your investment strategy</p>
+                <h3 className="font-medium text-orange-300 mb-1">Knowledge Base</h3>
+                <p className="text-sm text-muted-foreground">Explore our comprehensive information center</p>
               </div>
             </CardContent>
           </Card>
@@ -50,10 +50,10 @@ const Advisor: React.FC = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-orange-500/20 p-3 rounded-full mb-3 shadow-inner">
-                  <Lightbulb className="h-6 w-6 text-orange-400" />
+                  <ListCheck className="h-6 w-6 text-orange-400" />
                 </div>
-                <h3 className="font-medium text-orange-300 mb-1">Smart Projections</h3>
-                <p className="text-sm text-muted-foreground">Calculate potential returns with AI-powered scenario analysis</p>
+                <h3 className="font-medium text-orange-300 mb-1">Quick Answers</h3>
+                <p className="text-sm text-muted-foreground">Find solutions to common questions in seconds</p>
               </div>
             </CardContent>
           </Card>
