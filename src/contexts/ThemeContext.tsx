@@ -22,12 +22,17 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // Get initial theme from local storage or default to dark
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setTheme] = useState<Theme>('dark');
+  
+  // Load theme from local storage on initial render
+  useEffect(() => {
     const savedTheme = localStorage.getItem('investment-app-theme');
-    return (savedTheme as Theme) || 'dark';
-  });
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      setTheme(savedTheme);
+    }
+  }, []);
 
   // Update theme in local storage when it changes
   useEffect(() => {

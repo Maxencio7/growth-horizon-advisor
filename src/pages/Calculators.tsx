@@ -63,7 +63,7 @@ const Calculators: React.FC = () => {
 };
 
 const CompoundInterestCalculator: React.FC = () => {
-  const { selectedCurrency } = useCurrency();
+  const { currency } = useCurrency();
   const [principal, setPrincipal] = useState<number>(10000);
   const [rate, setRate] = useState<number>(7);
   const [years, setYears] = useState<number>(10);
@@ -225,13 +225,13 @@ const CompoundInterestCalculator: React.FC = () => {
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">Future Value</p>
                   <p className="text-2xl font-bold text-orange-400">
-                    {formatCurrency(result.futureValue, selectedCurrency)}
+                    {formatCurrency(result.futureValue, currency)}
                   </p>
                 </div>
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">Total Interest</p>
                   <p className="text-2xl font-bold text-green-500">
-                    {formatCurrency(result.totalInterest, selectedCurrency)}
+                    {formatCurrency(result.totalInterest, currency)}
                   </p>
                 </div>
               </div>
@@ -243,7 +243,7 @@ const CompoundInterestCalculator: React.FC = () => {
                     <div key={index} className="flex justify-between p-2 border-b border-border">
                       <span>Year {data.year}</span>
                       <span className="font-medium">
-                        {formatCurrency(data.value, selectedCurrency)}
+                        {formatCurrency(data.value, currency)}
                       </span>
                     </div>
                   ))}
@@ -263,7 +263,7 @@ const CompoundInterestCalculator: React.FC = () => {
 };
 
 const ROICalculator: React.FC = () => {
-  const { selectedCurrency } = useCurrency();
+  const { currency } = useCurrency();
   const [initialInvestment, setInitialInvestment] = useState<number>(10000);
   const [finalValue, setFinalValue] = useState<number>(15000);
   const [timePeriod, setTimePeriod] = useState<number>(3);
@@ -350,7 +350,7 @@ const ROICalculator: React.FC = () => {
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">Total Return</p>
                   <p className="text-2xl font-bold text-orange-400">
-                    {formatCurrency(result.totalReturn, selectedCurrency)}
+                    {formatCurrency(result.totalReturn, currency)}
                   </p>
                 </div>
                 <div className="bg-black/20 p-4 rounded-lg text-center">
@@ -372,8 +372,8 @@ const ROICalculator: React.FC = () => {
                 <h3 className="font-medium mb-2">What This Means</h3>
                 <p className="text-sm text-muted-foreground">
                   {result.roi >= 0 
-                    ? `Your investment of ${formatCurrency(initialInvestment, selectedCurrency)} has generated a positive return of ${formatCurrency(result.totalReturn, selectedCurrency)} over ${timePeriod} years.` 
-                    : `Your investment of ${formatCurrency(initialInvestment, selectedCurrency)} has lost ${formatCurrency(Math.abs(result.totalReturn), selectedCurrency)} over ${timePeriod} years.`
+                    ? `Your investment of ${formatCurrency(initialInvestment, currency)} has generated a positive return of ${formatCurrency(result.totalReturn, currency)} over ${timePeriod} years.` 
+                    : `Your investment of ${formatCurrency(initialInvestment, currency)} has lost ${formatCurrency(Math.abs(result.totalReturn), currency)} over ${timePeriod} years.`
                   }
                 </p>
               </div>
@@ -391,7 +391,7 @@ const ROICalculator: React.FC = () => {
 };
 
 const RetirementCalculator: React.FC = () => {
-  const { selectedCurrency } = useCurrency();
+  const { currency } = useCurrency();
   const [currentAge, setCurrentAge] = useState<number>(30);
   const [retirementAge, setRetirementAge] = useState<number>(65);
   const [currentSavings, setCurrentSavings] = useState<number>(50000);
@@ -536,14 +536,14 @@ const RetirementCalculator: React.FC = () => {
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">At Retirement (Age {retirementAge})</p>
                   <p className="text-2xl font-bold text-orange-400">
-                    {formatCurrency(result.futureValue, selectedCurrency)}
+                    {formatCurrency(result.futureValue, currency)}
                   </p>
                   <p className="text-xs text-muted-foreground">Nominal Value</p>
                 </div>
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">Inflation Adjusted</p>
                   <p className="text-2xl font-bold text-orange-400">
-                    {formatCurrency(result.inflationAdjustedValue, selectedCurrency)}
+                    {formatCurrency(result.inflationAdjustedValue, currency)}
                   </p>
                   <p className="text-xs text-muted-foreground">Today's Dollars</p>
                 </div>
@@ -553,13 +553,13 @@ const RetirementCalculator: React.FC = () => {
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">Annual Withdrawal (4% Rule)</p>
                   <p className="text-xl font-bold text-green-500">
-                    {formatCurrency(result.annualWithdrawal, selectedCurrency)}
+                    {formatCurrency(result.annualWithdrawal, currency)}
                   </p>
                 </div>
                 <div className="bg-black/20 p-4 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">Monthly Income</p>
                   <p className="text-xl font-bold text-green-500">
-                    {formatCurrency(result.monthlyWithdrawal, selectedCurrency)}
+                    {formatCurrency(result.monthlyWithdrawal, currency)}
                   </p>
                 </div>
               </div>
@@ -571,7 +571,7 @@ const RetirementCalculator: React.FC = () => {
                     <div key={data.age} className="flex justify-between p-2 border-b border-border">
                       <span>Age {data.age}</span>
                       <span className="font-medium">
-                        {formatCurrency(data.value, selectedCurrency)}
+                        {formatCurrency(data.value, currency)}
                       </span>
                     </div>
                   ))}
