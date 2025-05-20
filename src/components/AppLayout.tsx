@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuIcon, X, HelpCircle } from 'lucide-react';
+import { MenuIcon, X, HelpCircle, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import CurrencySelector from '@/components/CurrencySelector';
@@ -9,6 +9,7 @@ import UserGuide from '@/components/UserGuide';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import LoadingPage from '@/components/LoadingPage';
 import { useIsMobile } from '@/hooks/use-mobile';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { name: 'Dashboard', path: '/' },
     { name: 'Add Investment', path: '/add-investment' },
     { name: 'AI Advisor', path: '/advisor' },
+    { name: 'Calculators', path: '/calculators' },
     { name: 'User Guide', path: '/guide' },
   ];
 
@@ -65,8 +67,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               </Link>
             ))}
           </div>
-          {/* Add currency selector to the header */}
-          <div className="flex justify-between items-center">
+          {/* Add theme toggle and currency selector */}
+          <div className="flex justify-between items-center space-x-2">
+            <ThemeToggle />
             <CurrencySelector />
           </div>
         </div>
