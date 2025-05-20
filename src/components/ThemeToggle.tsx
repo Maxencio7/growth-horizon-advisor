@@ -10,37 +10,44 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
   const isMobile = useIsMobile();
+  const isDark = theme === 'dark';
 
   if (isMobile) {
     return (
       <Toggle 
-        pressed={theme === 'light'} 
+        pressed={!isDark} 
         onPressedChange={() => toggleTheme()}
-        className="p-2 mr-1"
-        aria-label="Toggle theme"
+        className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20"
+        aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       >
-        {theme === 'dark' ? (
-          <Moon className="h-4 w-4 text-orange-400" />
+        {isDark ? (
+          <Sun className="h-4 w-4" />
         ) : (
-          <Sun className="h-4 w-4 text-orange-400" />
+          <Moon className="h-4 w-4" />
         )}
       </Toggle>
     );
   }
 
   return (
-    <ToggleGroup type="single" value={theme} onValueChange={(value) => {
-      if (value) toggleTheme();
-    }}>
-      <ToggleGroupItem value="dark" aria-label="Dark mode">
-        <Moon className="h-4 w-4 mr-1" />
-        <span className="hidden md:inline">Dark</span>
-      </ToggleGroupItem>
-      <ToggleGroupItem value="light" aria-label="Light mode">
-        <Sun className="h-4 w-4 mr-1" />
-        <span className="hidden md:inline">Light</span>
-      </ToggleGroupItem>
-    </ToggleGroup>
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={toggleTheme}
+      className="border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
+    >
+      {isDark ? (
+        <div className="flex items-center">
+          <Sun className="h-4 w-4 mr-1" />
+          <span>Light</span>
+        </div>
+      ) : (
+        <div className="flex items-center">
+          <Moon className="h-4 w-4 mr-1" />
+          <span>Dark</span>
+        </div>
+      )}
+    </Button>
   );
 };
 

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -54,16 +55,16 @@
     --popover: 30 20% 97%;
     --popover-foreground: 20 10% 5%;
 
-    --primary: 24 100% 50%;
+    --primary: 24 95% 45%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 30 10% 90%;
-    --secondary-foreground: 24 100% 40%;
+    --secondary-foreground: 24 95% 40%;
 
     --muted: 30 10% 90%;
     --muted-foreground: 220 5% 40%;
 
-    --accent: 24 90% 55%;
+    --accent: 24 90% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -71,7 +72,7 @@
 
     --border: 30 15% 85%;
     --input: 30 15% 85%;
-    --ring: 24 90% 50%;
+    --ring: 24 95% 40%;
 
     --sidebar-background: 30 10% 95%;
     --sidebar-foreground: 20 10% 15%;
@@ -90,7 +91,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
     width: 100%;
     overflow-x: hidden;
   }
@@ -100,7 +101,7 @@
     position: fixed;
     inset: 0;
     z-index: -1;
-    background-image: radial-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px);
     background-size: 40px 40px;
     opacity: 0.5;
     pointer-events: none;
@@ -117,31 +118,34 @@
 }
 
 @layer components {
+  /* Premium card styling */
   .premium-card {
-    @apply bg-gradient-card border border-orange-900/20 shadow-lg shadow-orange-900/10;
+    @apply bg-card border border-primary/20 shadow-lg rounded-lg overflow-hidden transition-all duration-300;
   }
   
   .premium-button {
-    @apply bg-gradient-orange hover:shadow-md hover:shadow-orange-500/20 transition-all duration-300;
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20 transition-all duration-300;
   }
   
+  /* Glass effect styling */
   .glass-panel {
-    @apply bg-black/40 backdrop-blur-sm border border-orange-900/30;
+    @apply bg-background/40 backdrop-blur-sm border border-primary/20 rounded-lg;
   }
   
+  /* Background gradients */
   .bg-gradient-premium {
-    @apply bg-gradient-to-br from-black/90 to-black/70 backdrop-blur-sm;
+    @apply bg-gradient-to-br from-background to-background/90 backdrop-blur-sm;
   }
   
   .bg-gradient-card {
-    @apply bg-gradient-to-br from-black/80 to-black/60;
+    @apply bg-gradient-to-br from-card to-card/90;
   }
   
   .bg-gradient-orange {
-    @apply bg-gradient-to-r from-orange-600 to-orange-500;
+    @apply bg-gradient-to-r from-primary to-accent;
   }
   
-  /* Mobile-specific utility classes */
+  /* Mobile optimization */
   .mobile-container {
     @apply px-4 py-3 md:px-6 md:py-4;
   }
@@ -164,11 +168,11 @@
   }
   
   .chat-message-user {
-    @apply bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-tr-none shadow-md;
+    @apply bg-gradient-to-r from-primary to-accent text-white rounded-tr-none shadow-md;
   }
   
   .chat-message-ai {
-    @apply bg-black/40 border border-orange-500/20 rounded-tl-none shadow-sm;
+    @apply bg-card/50 border border-primary/20 rounded-tl-none shadow-sm;
   }
   
   .chat-message-ai:hover, .chat-message-user:hover {
@@ -180,9 +184,10 @@
   }
   
   .typing-dot {
-    @apply w-2 h-2 rounded-full bg-orange-500 opacity-60;
+    @apply w-2 h-2 rounded-full bg-primary opacity-60;
   }
   
+  /* Animations for various components */
   .typing-dot:nth-child(1) {
     animation: typing 1.4s infinite;
   }
@@ -194,34 +199,14 @@
   .typing-dot:nth-child(3) {
     animation: typing 1.4s 0.4s infinite;
   }
+
+  /* Premium gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-shine;
+  }
 }
 
-/* Premium gradient animations */
-.gradient-text {
-  background: linear-gradient(90deg, #F97316 0%, #FDBA74 50%, #F97316 100%);
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shine 3s linear infinite;
-}
-
-.light-mode .glass-panel {
-  @apply bg-white/60 backdrop-blur-sm border border-orange-200/50;
-}
-
-.light-mode .premium-card {
-  @apply bg-gradient-to-br from-white/90 to-white/70 border border-orange-200/30 shadow-lg shadow-orange-100/20;
-}
-
-.light-mode .bg-gradient-premium {
-  @apply bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-sm;
-}
-
-.light-mode .chat-message-ai {
-  @apply bg-white/60 border border-orange-300/20;
-}
-
+/* Gradient text animation */
 @keyframes shine {
   to {
     background-position: 200% center;
@@ -243,87 +228,30 @@
   }
 }
 
-/* Investments grid with premium styling */
-.investments-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-@media (min-width: 640px) {
-  .investments-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-}
-
 /* Premium card hover effect */
 .premium-card-hover {
-  transition: all 0.3s ease;
+  @apply transition-all duration-300;
 }
 
 .premium-card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(249, 115, 22, 0.1), 0 8px 10px -6px rgba(249, 115, 22, 0.1);
-}
-
-/* Floating help button animation */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(249, 115, 22, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
-  }
-}
-
-.pulse-animation {
-  animation: pulse 2s infinite;
-}
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .hide-on-mobile {
-    display: none;
-  }
-  
-  .mobile-stack {
-    flex-direction: column;
-  }
-  
-  .mobile-full-width {
-    width: 100%;
-  }
-  
-  .mobile-center {
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .mobile-compact {
-    padding: 0.5rem !important;
-    margin: 0.5rem !important;
-  }
+  @apply transform -translate-y-1 shadow-xl shadow-primary/10;
 }
 
 /* Responsive typography */
 @media (max-width: 640px) {
   h1 {
-    font-size: 1.5rem !important;
+    @apply text-2xl;
   }
   
   h2 {
-    font-size: 1.25rem !important;
+    @apply text-xl;
   }
   
   h3 {
-    font-size: 1.125rem !important;
+    @apply text-lg;
   }
   
   p, span, button {
-    font-size: 0.875rem !important;
+    @apply text-sm;
   }
 }

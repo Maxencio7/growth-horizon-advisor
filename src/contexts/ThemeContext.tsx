@@ -23,20 +23,21 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Get initial theme from local storage or default to dark
-  const [theme, setTheme] = useState<Theme>('dark');
-  
-  // Load theme from local storage on initial render
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('investment-app-theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      setTheme(savedTheme);
+  // Initialize state with a function to avoid the dispatcher is null error
+  const [theme, setTheme] = useState<Theme>(() => {
+    // Check if we're in the browser environment
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('investment-app-theme');
+      return (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme as Theme : 'dark';
     }
-  }, []);
-
-  // Update theme in local storage when it changes
+    return 'dark'; // Default fallback
+  });
+  
+  // Effect for updating DOM classes when theme changes
   useEffect(() => {
     localStorage.setItem('investment-app-theme', theme);
+    
+    // Update document class for theme styling
     if (theme === 'light') {
       document.documentElement.classList.add('light-mode');
     } else {
