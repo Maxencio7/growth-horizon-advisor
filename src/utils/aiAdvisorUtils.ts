@@ -7,28 +7,42 @@ import { Message } from '@/types/advisor';
 export const generateFallbackResponse = (message: string, investments: Investment[]): string => {
   const lowerMessage = message.toLowerCase();
   
+  // Portfolio analysis
+  if (lowerMessage.includes('portfolio') || lowerMessage.includes('investments') || 
+      lowerMessage.includes('analyze') || lowerMessage.includes('review')) {
+    if (investments.length === 0) {
+      return "I'd be happy to analyze your portfolio, but it looks like you haven't added any investments yet. Would you like me to guide you through adding your first investment?";
+    } else {
+      return `Based on your ${investments.length} investments, I can see a diverse portfolio. To give you more specific advice, I'd need to know more about your financial goals and risk tolerance. What are you trying to achieve with your investments?`;
+    }
+  }
+  
   // AI Integration advice
   if (lowerMessage.includes('ai') && 
       (lowerMessage.includes('integration') || lowerMessage.includes('recommend') || 
        lowerMessage.includes('technology') || lowerMessage.includes('tool'))) {
     
-    return `Based on your investment portfolio and goals, here are some AI integration recommendations:
+    return `Here are some AI integration recommendations for your investment strategy:
 
-### For Investment Analysis:
-- **Machine Learning Models**: For predicting market trends based on your current investments
-- **Natural Language Processing (NLP)**: To analyze financial news that might impact your portfolio
-- **Automated Trading Algorithms**: For executing trades based on predefined conditions
+1️⃣ **Automated Portfolio Rebalancing** - Tools that use machine learning to maintain your desired asset allocation
 
-### For Financial Planning:
-- **Robo-Advisors**: For automated portfolio management
-- **Predictive Analytics**: To forecast potential returns on different investment strategies
-- **Risk Assessment Tools**: To evaluate the risk level of your portfolio
+2️⃣ **Sentiment Analysis** - AI that monitors news and social media to gauge market sentiment about your investments
 
-Would you like more information about any specific AI integration? I can provide detailed insights on implementation, benefits, and potential costs.`;
+3️⃣ **Risk Assessment Tools** - Advanced algorithms to evaluate risk factors across your portfolio
+
+4️⃣ **Predictive Analytics** - Models that forecast potential returns based on historical data and market trends
+
+Which of these areas interests you most? I can provide more specific recommendations.`;
+  }
+  
+  // Financial planning
+  if (lowerMessage.includes('plan') || lowerMessage.includes('goal') || 
+      lowerMessage.includes('retire') || lowerMessage.includes('future')) {
+    return "Financial planning is highly personal. To create a good financial plan, I'd consider your current investments, income, expenses, time horizon, and risk tolerance. What specific aspect of financial planning are you most interested in?";
   }
   
   // Default response for other queries
-  return "I'm here to help with your investment journey and recommend AI integrations. You can ask me questions about your portfolio, AI integrations, investment calculations, or general financial advice.";
+  return "I'm here to help with investment advice, portfolio analysis, and AI integration recommendations. What specific aspect of your investments would you like to discuss today?";
 };
 
 // Function to call the AI advisor edge function

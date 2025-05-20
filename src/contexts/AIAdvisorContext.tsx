@@ -24,7 +24,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your investment advisor. I can help you understand your current investments, analyze your portfolio, provide personalized financial advice, and recommend AI integrations for your investment strategy. What would you like to know today?"
+      content: "Hi there! I'm your AI investment advisor. I can analyze your portfolio, suggest AI integration strategies, and help with financial planning. What would you like to know today?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     
     try {
       // Call the AI advisor with message history for context
-      const messageHistory = messages.slice(-6); // Send last 6 messages for context
+      const messageHistory = messages.slice(-8); // Send last 8 messages for context
       const response = await callAIAdvisor(message, investments, messageHistory);
       
       const assistantMessage: Message = {
@@ -57,10 +57,20 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
     } catch (error) {
       console.error('Error generating AI response:', error);
       toast({
-        title: "Error",
+        title: "Connection error",
         description: "Failed to generate response. Please try again.",
         variant: "destructive"
       });
+      
+      // Provide a fallback response
+      const fallbackResponse = generateFallbackResponse(message, investments);
+      const fallbackMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: fallbackResponse
+      };
+      
+      setMessages(prev => [...prev, fallbackMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +81,7 @@ export const AIAdvisorProvider = ({ children }: AIAdvisorProviderProps) => {
       {
         id: '1',
         role: 'assistant',
-        content: "Hello! I'm your investment advisor. I can help you understand your investments, analyze your portfolio, provide personalized financial advice, and recommend AI integrations. What would you like to know today?"
+        content: "Hi there! I'm your AI investment advisor. I can analyze your portfolio, suggest AI integration strategies, and help with financial planning. What would you like to know today?"
       }
     ]);
   };

@@ -24,22 +24,34 @@ serve(async (req) => {
       content: msg.content
     }));
 
-    // System prompt that defines the advisor's capabilities
+    // Create a detailed system prompt
     const systemPrompt = {
       role: 'system',
-      content: `You are an AI investment advisor specializing in personalized investment advice and AI integration recommendations.
+      content: `You are a sophisticated AI investment advisor specializing in personalized financial guidance and AI integration strategies. 
       
 Your capabilities:
-- Analyze investment portfolios and provide tailored advice
-- Recommend AI integrations for investment strategies
+- Analyze investment portfolios and provide tailored, actionable advice
+- Recommend AI integrations that can enhance investment strategies
 - Calculate potential returns for various investment scenarios
-- Explain investment concepts in an easy-to-understand way
+- Explain complex investment concepts in simple, engaging language
 
-Always be respectful of the user's investment choices. Never suggest changing their established goals, only provide information to help them understand their investments better.
+Guidelines:
+- Be conversational and friendly, like ChatGPT, using casual language while maintaining expertise
+- Keep responses concise but informative 
+- Use emojis occasionally to add personality
+- Avoid overly technical language unless specifically requested
+- When discussing the user's investments, reference their actual portfolio data
+- Personalize your responses based on the user's investment style and goals
+- Provide specific, actionable advice rather than generic tips
+- End your responses with engaging questions to keep the conversation flowing
 
-When calculating investment returns, show your work clearly with formatting to make the numbers easy to read.
-When asked about AI integrations, provide specific product recommendations with brief explanations of their benefits.`
+If you don't know something specific about the user's situation, politely acknowledge the limitation and suggest what information would be helpful.`
     };
+
+    // Format investment data for the model
+    const portfolioContext = investments.length > 0 
+      ? `The user has ${investments.length} investments in their portfolio: ${investments.map(inv => `${inv.name} (${inv.type}, ${inv.initialAmount})`).join(', ')}.` 
+      : "The user hasn't added any investments to their portfolio yet.";
 
     // Make request to OpenAI API
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -52,6 +64,7 @@ When asked about AI integrations, provide specific product recommendations with 
         model: 'gpt-4o-mini',
         messages: [
           systemPrompt,
+          { role: 'system', content: portfolioContext },
           ...formattedHistory,
           { role: 'user', content: message }
         ],
@@ -63,6 +76,7 @@ When asked about AI integrations, provide specific product recommendations with 
     const data = await response.json();
     
     if (data.error) {
+      console.error('OpenAI API error:', data.error);
       throw new Error(data.error.message || 'Error getting response from OpenAI');
     }
     
@@ -75,7 +89,7 @@ When asked about AI integrations, provide specific product recommendations with 
     console.error('Error in AI advisor function:', error);
     return new Response(JSON.stringify({ 
       error: error.message,
-      fallback: "I'm having trouble connecting to my knowledge base right now. Please try again in a moment."
+      fallback: "I'm having trouble connecting right now. Can you try again in a moment?"
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
