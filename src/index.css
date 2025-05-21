@@ -206,13 +206,6 @@
   }
 }
 
-/* Gradient text animation */
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
 @keyframes typing {
   0% {
     transform: translateY(0px);

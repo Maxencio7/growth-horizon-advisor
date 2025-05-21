@@ -118,6 +118,9 @@ export default {
 					'0%': { boxShadow: '0 0 0 0 rgba(249, 115, 22, 0.2)' },
 					'70%': { boxShadow: '0 0 0 10px rgba(249, 115, 22, 0)' },
 					'100%': { boxShadow: '0 0 0 0 rgba(249, 115, 22, 0)' },
+				},
+				'shine': {
+					'to': { backgroundPosition: '200% center' }
 				}
 			},
 			animation: {
@@ -126,6 +129,7 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'slide-in': 'slide-in 0.3s ease-out',
 				'pulse-light': 'pulse-light 2s infinite',
+				'shine': 'shine 3s linear infinite'
 			},
 			backgroundImage: {
 				'gradient-premium': 'linear-gradient(135deg, #0F0F0F 0%, #262626 100%)',
