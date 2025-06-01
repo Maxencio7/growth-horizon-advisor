@@ -21,12 +21,15 @@ const investmentSchema = z.object({
   interestRate: z.coerce.number()
     .min(0, 'Interest rate must be 0 or greater')
     .max(100, 'Interest rate must be 100 or less'),
+   monthlyInterestrate: z.coerce.number()
+    .min(0, 'Interest rate must be 0 or greater')
+    .max(100, 'Interest rate must be 100 or less'),
   duration: z.coerce.number()
     .min(1, 'Duration must be at least 1 month')
     .max(600, 'Duration must be 600 months (50 years) or less'),
   startDate: z.date(),
   riskLevel: z.enum(['Low', 'Medium', 'High']),
-  type: z.enum(['Stocks', 'Bonds', 'Crypto', 'Mutual Funds', 'Real Estate', 'Other']),
+  type: z.enum(['Stocks', 'Bonds', 'Crypto', 'Mutual Funds', 'Real Estate', 'SME' ,'Other']),
 });
 
 type InvestmentFormValues = z.infer<typeof investmentSchema>;
@@ -46,6 +49,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
     name: '',
     monthlyAmount: 0,
     interestRate: 0,
+    monthlyInterestrate:0,
     duration: 0,
     startDate: new Date(),
     riskLevel: 'Medium' as RiskLevel,
@@ -66,6 +70,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
         name: values.name,
         monthlyAmount: values.monthlyAmount,
         interestRate: values.interestRate,
+        monthlyInterestrate:values.monthlyInterestrate,
         duration: values.duration,
         startDate: values.startDate,
         riskLevel: values.riskLevel,
@@ -78,6 +83,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
         name: values.name,
         monthlyAmount: values.monthlyAmount,
         interestRate: values.interestRate,
+        monthlyInterestrate:values.monthlyInterestrate
         duration: values.duration,
         startDate: values.startDate,
         riskLevel: values.riskLevel,
