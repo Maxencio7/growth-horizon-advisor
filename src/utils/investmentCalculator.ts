@@ -1,5 +1,5 @@
 
-import { Investment, InvestmentGrowthPoint, InvestmentWithProjections } from "@/types/investment";
+import { Investment, InvestmentProjection, InvestmentWithProjections } from "@/types/investment";
 
 /**
  * Calculate compound interest for an investment over time
@@ -11,7 +11,7 @@ export const calculateInvestmentGrowth = (investment: Investment): InvestmentWit
   let totalValue = 0;
   let totalPrincipal = 0;
   let totalInterest = 0;
-  const projections: InvestmentGrowthPoint[] = [];
+  const projections: InvestmentProjection[] = [];
 
   for (let month = 1; month <= duration; month++) {
     // Add this month's investment
@@ -33,14 +33,15 @@ export const calculateInvestmentGrowth = (investment: Investment): InvestmentWit
     });
   }
 
-  const totalInvestment = monthlyAmount * duration;
-  const totalReturn = totalValue - totalInvestment;
-  const roi = (totalReturn / totalInvestment) * 100;
+  const totalInvested = monthlyAmount * duration;
+  const totalReturn = totalValue - totalInvested;
+  const roi = (totalReturn / totalInvested) * 100;
 
   return {
     ...investment,
     projections,
-    totalInvestment,
+    projectedValue: Number(totalValue.toFixed(2)),
+    totalInvested,
     totalReturn,
     roi
   };

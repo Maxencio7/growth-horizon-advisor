@@ -15,16 +15,17 @@ export interface Investment {
   type: InvestmentType;
 }
 
-export interface InvestmentGrowthPoint {
+export interface InvestmentProjection {
   month: number;
-  totalInvested: number;
-  totalValue: number;
-  monthlyGrowth: number;
+  value: number;
+  interest: number;
+  principal: number;
 }
 
 export interface InvestmentWithProjections extends Investment {
   projectedValue: number;
   totalInvested: number;
   totalReturn: number;
-  growthData: InvestmentGrowthPoint[];
+  roi: number;
+  projections: InvestmentProjection[];
 }

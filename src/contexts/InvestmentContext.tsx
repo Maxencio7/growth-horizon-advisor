@@ -40,7 +40,12 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
       // Load guest investments from localStorage
       const guestInvestments = localStorage.getItem('guest_investments');
       if (guestInvestments) {
-        setInvestments(JSON.parse(guestInvestments));
+        const parsed = JSON.parse(guestInvestments);
+        const formattedInvestments = parsed.map((inv: any) => ({
+          ...inv,
+          startDate: new Date(inv.startDate)
+        }));
+        setInvestments(formattedInvestments);
       }
       setLoading(false);
     } else {
@@ -55,7 +60,7 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
     try {
       // Try to fetch from database, fallback to localStorage if table doesn't exist
       try {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('investments')
           .select('*')
           .eq('user_id', user.id)
@@ -65,7 +70,7 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
           throw error;
         }
 
-        const formattedInvestments = data.map(inv => ({
+        const formattedInvestments = data.map((inv: any) => ({
           ...inv,
           startDate: new Date(inv.start_date),
           interestRate: inv.annual_interest_rate,
@@ -77,7 +82,12 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
         // Fallback to localStorage for development
         const localInvestments = localStorage.getItem(`investments_${user.id}`);
         if (localInvestments) {
-          setInvestments(JSON.parse(localInvestments));
+          const parsed = JSON.parse(localInvestments);
+          const formattedInvestments = parsed.map((inv: any) => ({
+            ...inv,
+            startDate: new Date(inv.startDate)
+          }));
+          setInvestments(formattedInvestments);
         }
       }
     } catch (error) {
@@ -106,7 +116,7 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
     try {
       // Try to store in database, fallback to localStorage
       try {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('investments')
           .insert({
             id: newInvestment.id,
@@ -154,7 +164,7 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
     try {
       // Try to update in database, fallback to localStorage
       try {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('investments')
           .update({
             name: investment.name,
@@ -204,7 +214,7 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
     try {
       // Try to delete from database, fallback to localStorage
       try {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('investments')
           .delete()
           .eq('id', id)

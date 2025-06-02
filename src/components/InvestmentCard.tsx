@@ -126,7 +126,7 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment }) => {
           <div className="grid grid-cols-2 gap-2">
             <div>
               <p className="text-muted-foreground text-sm">Total Investment:</p>
-              <p className="font-semibold">{formatCurrencyWithSymbol(investment.totalInvestment)}</p>
+              <p className="font-semibold">{formatCurrencyWithSymbol(investment.totalInvested)}</p>
             </div>
             <div>
               <p className="text-muted-foreground text-sm">Final Value:</p>

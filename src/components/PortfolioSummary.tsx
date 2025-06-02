@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Investment, InvestmentWithProjections } from '@/types/investment';
+import { InvestmentWithProjections } from '@/types/investment';
 import { formatCurrency, formatPercentage } from '@/utils/investmentCalculator';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -17,7 +18,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ investments }) => {
   }
 
   // Calculate portfolio metrics
-  const totalInvested = investments.reduce((sum, inv) => sum + inv.totalInvestment, 0);
+  const totalInvested = investments.reduce((sum, inv) => sum + inv.totalInvested, 0);
   const totalFinalValue = investments.reduce((sum, inv) => {
     const lastPoint = inv.projections[inv.projections.length - 1];
     return sum + lastPoint.value;

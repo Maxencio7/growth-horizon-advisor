@@ -8,10 +8,16 @@ import InvestmentCard from '@/components/InvestmentCard';
 import PortfolioSummary from '@/components/PortfolioSummary';
 import { useInvestments } from '@/contexts/InvestmentContext';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { calculateInvestmentGrowth } from '@/utils/investmentCalculator';
 
 const Index: React.FC = () => {
   const { investments } = useInvestments();
   const isMobile = useIsMobile();
+
+  // Calculate projections for all investments
+  const investmentsWithProjections = React.useMemo(() => {
+    return investments.map(investment => calculateInvestmentGrowth(investment));
+  }, [investments]);
 
   return (
     <AppLayout>
@@ -33,7 +39,7 @@ const Index: React.FC = () => {
         
         <Separator />
         
-        <PortfolioSummary investments={investments} />
+        <PortfolioSummary investments={investmentsWithProjections} />
         
         {investments.length === 0 ? (
           <div className="bg-muted/40 rounded-lg p-4 md:p-8 text-center">
@@ -52,7 +58,7 @@ const Index: React.FC = () => {
           <div>
             <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Your Investments</h2>
             <div className="investments-grid">
-              {investments.map((investment) => (
+              {investmentsWithProjections.map((investment) => (
                 <InvestmentCard key={investment.id} investment={investment} />
               ))}
             </div>

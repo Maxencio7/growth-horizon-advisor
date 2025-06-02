@@ -101,7 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       // Try to fetch profile (gracefully handle if table doesn't exist)
       try {
-        const { data: profileData } = await supabase
+        const { data: profileData } = await (supabase as any)
           .from('profiles')
           .select('*')
           .eq('id', userId)
@@ -116,7 +116,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Try to fetch notification preferences (gracefully handle if table doesn't exist)
       try {
-        const { data: notificationData } = await supabase
+        const { data: notificationData } = await (supabase as any)
           .from('notification_preferences')
           .select('*')
           .eq('user_id', userId)
@@ -174,7 +174,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!user) return { error: 'No user logged in' };
 
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('profiles')
         .update(updates)
         .eq('id', user.id);
@@ -193,7 +193,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!user) return { error: 'No user logged in' };
 
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('notification_preferences')
         .update(updates)
         .eq('user_id', user.id);
