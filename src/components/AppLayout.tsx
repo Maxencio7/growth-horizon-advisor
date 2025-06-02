@@ -29,20 +29,20 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isLoading } = useCurrency();
-  const { user, profile, loading: authLoading, signOut } = useAuth();
+  const { user, profile, loading: authLoading, signOut, isGuest } = useAuth();
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (!authLoading && !user && location.pathname !== '/auth') {
+    if (!authLoading && !user && !isGuest && location.pathname !== '/auth') {
       navigate('/auth');
     }
-  }, [authLoading, user, location.pathname, navigate]);
+  }, [authLoading, user, isGuest, location.pathname, navigate]);
 
   if (isLoading || authLoading) {
     return <LoadingPage />;
   }
 
-  if (!user && location.pathname !== '/auth') {
+  if (!user && !isGuest && location.pathname !== '/auth') {
     return <LoadingPage />;
   }
 
@@ -66,6 +66,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   const getUserDisplayName = () => {
+    if (isGuest) return 'Guest User';
     if (profile?.first_name) {
       return `${profile.first_name}${profile.last_name ? ` ${profile.last_name}` : ''}`;
     }
@@ -81,16 +82,19 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             <Link to="/" className="flex items-center">
               <img src="/logo.png" alt="Visionary Enterprises" className="h-10 md:h-12" />
             </Link>
-            {user && (
+            {(user || isGuest) && (
               <div className="hidden md:block ml-4">
                 <span className="text-sm text-muted-foreground">Welcome back, </span>
                 <span className="text-sm font-medium text-primary">{getUserDisplayName()}</span>
+                {isGuest && (
+                  <span className="text-xs text-muted-foreground ml-2">(Guest Mode)</span>
+                )}
               </div>
             )}
           </div>
           
           {/* Desktop Navigation */}
-          {user && (
+          {(user || isGuest) && (
             <div className="hidden md:flex items-center space-x-6">
               {navItems.map((item) => (
                 <Link
@@ -113,7 +117,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             <ThemeToggle />
             <CurrencySelector />
             
-            {user && (
+            {(user || isGuest) && (
               <>
                 {/* Mobile menu button */}
                 {isMobile && (
@@ -134,17 +138,29 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="hidden md:flex">
                       <User className="h-4 w-4 mr-1" />
-                      <span>{profile?.first_name || 'User'}</span>
+                      <span>{isGuest ? 'Guest' : (profile?.first_name || 'User')}</span>
                       <ChevronDown className="h-4 w-4 ml-1" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => navigate('/profile')}>
-                      Profile Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
+                    {!isGuest && (
+                      <>
+                        <DropdownMenuItem onClick={() => navigate('/profile')}>
+                          Profile Settings
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {isGuest && (
+                      <>
+                        <DropdownMenuItem onClick={() => navigate('/auth')}>
+                          Sign Up / Sign In
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
                     <DropdownMenuItem onClick={handleSignOut}>
-                      Sign Out
+                      {isGuest ? 'Exit Guest Mode' : 'Sign Out'}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -154,12 +170,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         </div>
 
         {/* Mobile dropdown menu */}
-        {user && isMobile && mobileMenuOpen && (
+        {(user || isGuest) && isMobile && mobileMenuOpen && (
           <div className="md:hidden bg-popover border-b border-primary/20 shadow-md">
             <nav className="container mx-auto py-2 px-4 space-y-1">
               <div className="py-2 px-4 border-b border-primary/20 mb-2">
                 <span className="text-sm text-muted-foreground">Welcome, </span>
                 <span className="text-sm font-medium text-primary">{getUserDisplayName()}</span>
+                {isGuest && (
+                  <span className="text-xs text-muted-foreground block">(Guest Mode)</span>
+                )}
               </div>
               {navItems.map((item) => (
                 <Link
@@ -177,15 +196,28 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 </Link>
               ))}
               <div className="border-t border-primary/20 pt-2 mt-2">
-                <button
-                  onClick={() => {
-                    navigate('/profile');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
-                >
-                  Profile Settings
-                </button>
+                {!isGuest && (
+                  <button
+                    onClick={() => {
+                      navigate('/profile');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                  >
+                    Profile Settings
+                  </button>
+                )}
+                {isGuest && (
+                  <button
+                    onClick={() => {
+                      navigate('/auth');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                  >
+                    Sign Up / Sign In
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     handleSignOut();
@@ -193,7 +225,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   }}
                   className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
                 >
-                  Sign Out
+                  {isGuest ? 'Exit Guest Mode' : 'Sign Out'}
                 </button>
               </div>
             </nav>
@@ -207,7 +239,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       </main>
       
       {/* User Guide Floating Button - only show when not on guide page and user is logged in */}
-      {user && location.pathname !== '/guide' && <UserGuide />}
+      {(user || isGuest) && location.pathname !== '/guide' && <UserGuide />}
     </div>
   );
 };

@@ -31,35 +31,40 @@ interface InvestmentProviderProps {
 export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children }) => {
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
 
   useEffect(() => {
-    if (user) {
+    if (user && !isGuest) {
       fetchInvestments();
+    } else if (isGuest) {
+      // Load guest investments from localStorage
+      const guestInvestments = localStorage.getItem('guest_investments');
+      if (guestInvestments) {
+        setInvestments(JSON.parse(guestInvestments));
+      }
+      setLoading(false);
     } else {
       setInvestments([]);
       setLoading(false);
     }
-  }, [user]);
+  }, [user, isGuest]);
 
   const fetchInvestments = async () => {
-    if (!user) return;
+    if (!user || isGuest) return;
 
     try {
-      const { data, error } = await supabase
-        .from('investments')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      // Try to fetch from database, fallback to localStorage if table doesn't exist
+      try {
+        const { data, error } = await supabase
+          .from('investments')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching investments:', error);
-        // Fallback to localStorage for development
-        const localInvestments = localStorage.getItem(`investments_${user.id}`);
-        if (localInvestments) {
-          setInvestments(JSON.parse(localInvestments));
+        if (error) {
+          throw error;
         }
-      } else {
+
         const formattedInvestments = data.map(inv => ({
           ...inv,
           startDate: new Date(inv.start_date),
@@ -67,129 +72,158 @@ export const InvestmentProvider: React.FC<InvestmentProviderProps> = ({ children
           monthlyInterestrate: inv.monthly_interest_rate,
         }));
         setInvestments(formattedInvestments);
+      } catch (dbError) {
+        console.log('Database table not available, using localStorage fallback');
+        // Fallback to localStorage for development
+        const localInvestments = localStorage.getItem(`investments_${user.id}`);
+        if (localInvestments) {
+          setInvestments(JSON.parse(localInvestments));
+        }
       }
     } catch (error) {
       console.error('Error fetching investments:', error);
-      // Fallback to localStorage
-      const localInvestments = localStorage.getItem(`investments_${user.id}`);
-      if (localInvestments) {
-        setInvestments(JSON.parse(localInvestments));
-      }
     } finally {
       setLoading(false);
     }
   };
 
   const addInvestment = async (investment: Omit<Investment, 'id'>) => {
-    if (!user) return;
-
     const newInvestment: Investment = {
       ...investment,
       id: uuidv4(),
     };
 
-    try {
-      const { error } = await supabase
-        .from('investments')
-        .insert({
-          id: newInvestment.id,
-          user_id: user.id,
-          name: investment.name,
-          monthly_amount: investment.monthlyAmount,
-          annual_interest_rate: investment.interestRate,
-          monthly_interest_rate: investment.monthlyInterestrate,
-          duration: investment.duration,
-          start_date: investment.startDate.toISOString().split('T')[0],
-          risk_level: investment.riskLevel,
-          type: investment.type,
-        });
+    if (isGuest) {
+      // Store in localStorage for guest users
+      const updatedInvestments = [...investments, newInvestment];
+      setInvestments(updatedInvestments);
+      localStorage.setItem('guest_investments', JSON.stringify(updatedInvestments));
+      return;
+    }
 
-      if (error) {
-        console.error('Error adding investment:', error);
+    if (!user) return;
+
+    try {
+      // Try to store in database, fallback to localStorage
+      try {
+        const { error } = await supabase
+          .from('investments')
+          .insert({
+            id: newInvestment.id,
+            user_id: user.id,
+            name: investment.name,
+            monthly_amount: investment.monthlyAmount,
+            annual_interest_rate: investment.interestRate,
+            monthly_interest_rate: investment.monthlyInterestrate,
+            duration: investment.duration,
+            start_date: investment.startDate.toISOString().split('T')[0],
+            risk_level: investment.riskLevel,
+            type: investment.type,
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        setInvestments(prev => [newInvestment, ...prev]);
+      } catch (dbError) {
+        console.log('Database not available, using localStorage');
         // Fallback to localStorage
         const updatedInvestments = [...investments, newInvestment];
         setInvestments(updatedInvestments);
         localStorage.setItem(`investments_${user.id}`, JSON.stringify(updatedInvestments));
-      } else {
-        setInvestments(prev => [newInvestment, ...prev]);
       }
     } catch (error) {
       console.error('Error adding investment:', error);
-      // Fallback to localStorage
-      const updatedInvestments = [...investments, newInvestment];
-      setInvestments(updatedInvestments);
-      localStorage.setItem(`investments_${user.id}`, JSON.stringify(updatedInvestments));
     }
   };
 
   const updateInvestment = async (investment: Investment) => {
+    if (isGuest) {
+      // Update in localStorage for guest users
+      const updatedInvestments = investments.map(inv => 
+        inv.id === investment.id ? investment : inv
+      );
+      setInvestments(updatedInvestments);
+      localStorage.setItem('guest_investments', JSON.stringify(updatedInvestments));
+      return;
+    }
+
     if (!user) return;
 
     try {
-      const { error } = await supabase
-        .from('investments')
-        .update({
-          name: investment.name,
-          monthly_amount: investment.monthlyAmount,
-          annual_interest_rate: investment.interestRate,
-          monthly_interest_rate: investment.monthlyInterestrate,
-          duration: investment.duration,
-          start_date: investment.startDate.toISOString().split('T')[0],
-          risk_level: investment.riskLevel,
-          type: investment.type,
-        })
-        .eq('id', investment.id)
-        .eq('user_id', user.id);
+      // Try to update in database, fallback to localStorage
+      try {
+        const { error } = await supabase
+          .from('investments')
+          .update({
+            name: investment.name,
+            monthly_amount: investment.monthlyAmount,
+            annual_interest_rate: investment.interestRate,
+            monthly_interest_rate: investment.monthlyInterestrate,
+            duration: investment.duration,
+            start_date: investment.startDate.toISOString().split('T')[0],
+            risk_level: investment.riskLevel,
+            type: investment.type,
+          })
+          .eq('id', investment.id)
+          .eq('user_id', user.id);
 
-      if (error) {
-        console.error('Error updating investment:', error);
+        if (error) {
+          throw error;
+        }
+
+        setInvestments(prev => 
+          prev.map(inv => inv.id === investment.id ? investment : inv)
+        );
+      } catch (dbError) {
+        console.log('Database not available, using localStorage');
         // Fallback to localStorage
         const updatedInvestments = investments.map(inv => 
           inv.id === investment.id ? investment : inv
         );
         setInvestments(updatedInvestments);
         localStorage.setItem(`investments_${user.id}`, JSON.stringify(updatedInvestments));
-      } else {
-        setInvestments(prev => 
-          prev.map(inv => inv.id === investment.id ? investment : inv)
-        );
       }
     } catch (error) {
       console.error('Error updating investment:', error);
-      // Fallback to localStorage
-      const updatedInvestments = investments.map(inv => 
-        inv.id === investment.id ? investment : inv
-      );
-      setInvestments(updatedInvestments);
-      localStorage.setItem(`investments_${user.id}`, JSON.stringify(updatedInvestments));
     }
   };
 
   const deleteInvestment = async (id: string) => {
+    if (isGuest) {
+      // Remove from localStorage for guest users
+      const updatedInvestments = investments.filter(inv => inv.id !== id);
+      setInvestments(updatedInvestments);
+      localStorage.setItem('guest_investments', JSON.stringify(updatedInvestments));
+      return;
+    }
+
     if (!user) return;
 
     try {
-      const { error } = await supabase
-        .from('investments')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
+      // Try to delete from database, fallback to localStorage
+      try {
+        const { error } = await supabase
+          .from('investments')
+          .delete()
+          .eq('id', id)
+          .eq('user_id', user.id);
 
-      if (error) {
-        console.error('Error deleting investment:', error);
+        if (error) {
+          throw error;
+        }
+
+        setInvestments(prev => prev.filter(inv => inv.id !== id));
+      } catch (dbError) {
+        console.log('Database not available, using localStorage');
         // Fallback to localStorage
         const updatedInvestments = investments.filter(inv => inv.id !== id);
         setInvestments(updatedInvestments);
         localStorage.setItem(`investments_${user.id}`, JSON.stringify(updatedInvestments));
-      } else {
-        setInvestments(prev => prev.filter(inv => inv.id !== id));
       }
     } catch (error) {
       console.error('Error deleting investment:', error);
-      // Fallback to localStorage
-      const updatedInvestments = investments.filter(inv => inv.id !== id);
-      setInvestments(updatedInvestments);
-      localStorage.setItem(`investments_${user.id}`, JSON.stringify(updatedInvestments));
     }
   };
 

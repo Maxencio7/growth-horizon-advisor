@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 
 const Auth: React.FC = () => {
@@ -15,14 +16,14 @@ const Auth: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, user, isGuest, continueAsGuest } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (user || isGuest) {
       navigate('/');
     }
-  }, [user, navigate]);
+  }, [user, isGuest, navigate]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +54,12 @@ const Auth: React.FC = () => {
     }
     
     setLoading(false);
+  };
+
+  const handleGuestMode = () => {
+    continueAsGuest();
+    toast.success('Welcome! You can explore the app as a guest.');
+    navigate('/');
   };
 
   return (
@@ -146,6 +153,22 @@ const Auth: React.FC = () => {
               </form>
             </TabsContent>
           </Tabs>
+
+          <div className="mt-6">
+            <Separator className="my-4" />
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-3">
+                Want to explore without signing up?
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={handleGuestMode}
+                className="w-full"
+              >
+                Continue as Guest
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

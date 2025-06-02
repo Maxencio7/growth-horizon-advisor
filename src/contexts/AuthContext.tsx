@@ -25,9 +25,11 @@ interface AuthContextType {
   profile: Profile | null;
   notifications: NotificationPreferences | null;
   loading: boolean;
+  isGuest: boolean;
   signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  continueAsGuest: () => void;
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: any }>;
   updateNotifications: (updates: Partial<NotificationPreferences>) => Promise<{ error: any }>;
 }
@@ -52,8 +54,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [notifications, setNotifications] = useState<NotificationPreferences | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
+    // Check if user chose guest mode
+    const guestMode = localStorage.getItem('guest-mode');
+    if (guestMode === 'true') {
+      setIsGuest(true);
+      setLoading(false);
+      return;
+    }
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
@@ -61,7 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user profile and notifications
+          // Fetch user profile and notifications only if tables exist
           setTimeout(() => {
             fetchUserData(session.user.id);
           }, 0);
@@ -88,26 +99,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const fetchUserData = async (userId: string) => {
     try {
-      // Fetch profile
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-      
-      if (profileData) {
-        setProfile(profileData);
+      // Try to fetch profile (gracefully handle if table doesn't exist)
+      try {
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
+        
+        if (profileData) {
+          setProfile(profileData);
+        }
+      } catch (error) {
+        console.log('Profiles table not yet created, skipping profile fetch');
       }
 
-      // Fetch notification preferences
-      const { data: notificationData } = await supabase
-        .from('notification_preferences')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-      
-      if (notificationData) {
-        setNotifications(notificationData);
+      // Try to fetch notification preferences (gracefully handle if table doesn't exist)
+      try {
+        const { data: notificationData } = await supabase
+          .from('notification_preferences')
+          .select('*')
+          .eq('user_id', userId)
+          .single();
+        
+        if (notificationData) {
+          setNotifications(notificationData);
+        }
+      } catch (error) {
+        console.log('Notification preferences table not yet created, skipping notification fetch');
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -140,37 +159,53 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const signOut = async () => {
+    localStorage.removeItem('guest-mode');
+    setIsGuest(false);
     await supabase.auth.signOut();
+  };
+
+  const continueAsGuest = () => {
+    localStorage.setItem('guest-mode', 'true');
+    setIsGuest(true);
+    setLoading(false);
   };
 
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: 'No user logged in' };
 
-    const { error } = await supabase
-      .from('profiles')
-      .update(updates)
-      .eq('id', user.id);
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id);
 
-    if (!error) {
-      setProfile(prev => prev ? { ...prev, ...updates } : null);
+      if (!error) {
+        setProfile(prev => prev ? { ...prev, ...updates } : null);
+      }
+
+      return { error };
+    } catch (error) {
+      return { error: 'Profile update not available yet' };
     }
-
-    return { error };
   };
 
   const updateNotifications = async (updates: Partial<NotificationPreferences>) => {
     if (!user) return { error: 'No user logged in' };
 
-    const { error } = await supabase
-      .from('notification_preferences')
-      .update(updates)
-      .eq('user_id', user.id);
+    try {
+      const { error } = await supabase
+        .from('notification_preferences')
+        .update(updates)
+        .eq('user_id', user.id);
 
-    if (!error) {
-      setNotifications(prev => prev ? { ...prev, ...updates } : null);
+      if (!error) {
+        setNotifications(prev => prev ? { ...prev, ...updates } : null);
+      }
+
+      return { error };
+    } catch (error) {
+      return { error: 'Notification preferences update not available yet' };
     }
-
-    return { error };
   };
 
   return (
@@ -180,9 +215,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       profile,
       notifications,
       loading,
+      isGuest,
       signUp,
       signIn,
       signOut,
+      continueAsGuest,
       updateProfile,
       updateNotifications,
     }}>

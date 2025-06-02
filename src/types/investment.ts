@@ -14,3 +14,17 @@ export interface Investment {
   riskLevel: RiskLevel;
   type: InvestmentType;
 }
+
+export interface InvestmentGrowthPoint {
+  month: number;
+  totalInvested: number;
+  totalValue: number;
+  monthlyGrowth: number;
+}
+
+export interface InvestmentWithProjections extends Investment {
+  projectedValue: number;
+  totalInvested: number;
+  totalReturn: number;
+  growthData: InvestmentGrowthPoint[];
+}
