@@ -23,15 +23,15 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Initialize state with a function to avoid the dispatcher is null error
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Check if we're in the browser environment
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('investment-app-theme');
-      return (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme as Theme : 'dark';
+  const [theme, setTheme] = useState<Theme>('dark');
+  
+  // Initialize theme from localStorage after component mounts
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('investment-app-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      setTheme(savedTheme);
     }
-    return 'dark'; // Default fallback
-  });
+  }, []);
   
   // Effect for updating DOM classes when theme changes
   useEffect(() => {
