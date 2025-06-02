@@ -70,7 +70,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
         name: values.name,
         monthlyAmount: values.monthlyAmount,
         interestRate: values.interestRate,
-        monthlyInterestrate:values.monthlyInterestrate,
+        monthlyInterestrate: values.monthlyInterestrate,
         duration: values.duration,
         startDate: values.startDate,
         riskLevel: values.riskLevel,
@@ -83,7 +83,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
         name: values.name,
         monthlyAmount: values.monthlyAmount,
         interestRate: values.interestRate,
-        monthlyInterestrate:values.monthlyInterestrate
+        monthlyInterestrate: values.monthlyInterestrate,
         duration: values.duration,
         startDate: values.startDate,
         riskLevel: values.riskLevel,
@@ -163,6 +163,23 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
+                name="monthlyInterestrate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Monthly Interest Rate (%)</FormLabel>
+                    <FormControl>
+                      <Input type="number" min="0" step="0.01" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Monthly compounding interest rate
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="duration"
                 render={({ field }) => (
                   <FormItem>
@@ -177,7 +194,9 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <FormField
                 control={form.control}
                 name="startDate"
@@ -253,6 +272,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ existingInvestment }) =
                         <SelectItem value="Crypto">Crypto</SelectItem>
                         <SelectItem value="Mutual Funds">Mutual Funds</SelectItem>
                         <SelectItem value="Real Estate">Real Estate</SelectItem>
+                        <SelectItem value="SME">SME</SelectItem>
                         <SelectItem value="Other">Other</SelectItem>
                       </SelectContent>
                     </Select>
