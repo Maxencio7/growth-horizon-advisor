@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import Calculators from "./pages/Calculators";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
+import Brokers from "./pages/Brokers";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => {
                       <Route path="/advisor" element={<Advisor />} />
                       <Route path="/guide" element={<UserGuidePage />} />
                       <Route path="/calculators" element={<Calculators />} />
+                      <Route path="/brokers" element={<Brokers />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </BrowserRouter>

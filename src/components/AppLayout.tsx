@@ -50,6 +50,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { name: 'Dashboard', path: '/' },
     { name: 'Add Investment', path: '/add-investment' },
     { name: 'AI Advisor', path: '/advisor' },
+    { name: 'Brokers & Brands', path: '/brokers' },
     { name: 'Calculators', path: '/calculators' },
     { name: 'User Guide', path: '/guide' },
   ];
