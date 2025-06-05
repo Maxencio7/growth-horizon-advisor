@@ -17,96 +17,262 @@ const Brokers: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const brokers = [
+    // International Brokers
     {
       id: 1,
-      name: 'Fidelity',
-      description: 'One of the largest investment firms with zero-fee stock trades and excellent research tools.',
-      rating: 4.8,
+      name: 'Interactive Brokers',
+      description: 'Global leader serving 200+ countries including most African nations with low fees.',
+      rating: 4.9,
       minInvestment: 0,
-      fees: 'No commission on stocks/ETFs',
-      features: ['Commission-free trading', 'Excellent research', 'Retirement planning', 'Robo-advisor'],
-      category: 'traditional',
-      logo: '🏦',
-      website: 'https://fidelity.com'
+      fees: 'From $0.005/share',
+      features: ['Global markets', 'Multi-currency', 'Low fees', 'Advanced tools'],
+      category: 'international',
+      logo: '🌍',
+      website: 'https://interactivebrokers.com'
     },
     {
       id: 2,
-      name: 'Robinhood',
-      description: 'Popular mobile-first platform perfect for beginners with simple interface and zero commissions.',
-      rating: 4.2,
+      name: 'TD Ameritrade',
+      description: 'Trusted US broker with international access and excellent educational resources.',
+      rating: 4.7,
       minInvestment: 0,
-      fees: 'Commission-free',
-      features: ['Mobile-first', 'Fractional shares', 'Crypto trading', 'Simple interface'],
-      category: 'mobile',
-      logo: '📱',
-      website: 'https://robinhood.com'
+      fees: 'Commission-free stocks/ETFs',
+      features: ['Education center', 'Research tools', 'Mobile app', 'International access'],
+      category: 'international',
+      logo: '🏦',
+      website: 'https://tdameritrade.com'
     },
     {
       id: 3,
-      name: 'Charles Schwab',
-      description: 'Full-service brokerage with comprehensive tools and excellent customer service.',
-      rating: 4.7,
-      minInvestment: 0,
-      fees: 'No commission on stocks/ETFs',
-      features: ['Full service', 'Research tools', 'Banking services', 'Global trading'],
-      category: 'traditional',
-      logo: '🏛️',
-      website: 'https://schwab.com'
+      name: 'eToro',
+      description: 'Social trading platform available in most African countries with copy trading.',
+      rating: 4.5,
+      minInvestment: 50,
+      fees: 'Spread-based',
+      features: ['Social trading', 'Copy trading', 'Crypto', 'Available in Africa'],
+      category: 'international',
+      logo: '📱',
+      website: 'https://etoro.com'
     },
+    // African-Focused Brokers
     {
       id: 4,
+      name: 'EasyEquities (South Africa)',
+      description: 'Leading South African platform offering fractional shares and international markets.',
+      rating: 4.6,
+      minInvestment: 0,
+      fees: 'R30-50 per trade',
+      features: ['Fractional shares', 'JSE access', 'US markets', 'Local support'],
+      category: 'african',
+      logo: '🇿🇦',
+      website: 'https://easyequities.co.za'
+    },
+    {
+      id: 5,
+      name: 'Bamboo (Nigeria)',
+      description: 'Nigerian fintech providing access to US stocks and real estate investments.',
+      rating: 4.4,
+      minInvestment: 100,
+      fees: '1.5% FX + trading fees',
+      features: ['US stocks', 'Real estate', 'Dollar cards', 'Local banking'],
+      category: 'african',
+      logo: '🇳🇬',
+      website: 'https://bamboo.africa'
+    },
+    {
+      id: 6,
+      name: 'Chaka (Nigeria)',
+      description: 'Investment platform offering Nigerian and international market access.',
+      rating: 4.3,
+      minInvestment: 1000,
+      fees: '0.5% annual fee',
+      features: ['NSE stocks', 'Global markets', 'Mutual funds', 'Fixed income'],
+      category: 'african',
+      logo: '🇳🇬',
+      website: 'https://chaka.ng'
+    },
+    {
+      id: 7,
+      name: 'Absa Stockbrokers (Multi-African)',
+      description: 'Pan-African investment services across multiple African markets.',
+      rating: 4.5,
+      minInvestment: 0,
+      fees: 'Varies by market',
+      features: ['Pan-African', 'Local expertise', 'Research', 'Institutional grade'],
+      category: 'african',
+      logo: '🌍',
+      website: 'https://absa.africa'
+    },
+    {
+      id: 8,
+      name: 'Standard Bank Securities',
+      description: 'Major African bank offering investment services across the continent.',
+      rating: 4.4,
+      minInvestment: 0,
+      fees: 'Competitive rates',
+      features: ['Multi-country', 'Banking integration', 'Research', 'Local presence'],
+      category: 'african',
+      logo: '🏛️',
+      website: 'https://standardbank.com'
+    },
+    // Robo-Advisors
+    {
+      id: 9,
       name: 'Betterment',
-      description: 'Robo-advisor that automatically manages your portfolio with low fees.',
+      description: 'US robo-advisor with international access for automated portfolio management.',
       rating: 4.5,
       minInvestment: 0,
       fees: '0.25% annual fee',
-      features: ['Robo-advisor', 'Auto-rebalancing', 'Tax optimization', 'Goal-based investing'],
+      features: ['Robo-advisor', 'Auto-rebalancing', 'Tax optimization', 'Goal-based'],
       category: 'robo',
       logo: '🤖',
       website: 'https://betterment.com'
+    },
+    {
+      id: 10,
+      name: 'Wealthfront',
+      description: 'Advanced robo-advisor with tax-loss harvesting and financial planning.',
+      rating: 4.6,
+      minInvestment: 500,
+      fees: '0.25% annual fee',
+      features: ['Tax optimization', 'Financial planning', 'Direct indexing', 'Automated'],
+      category: 'robo',
+      logo: '💰',
+      website: 'https://wealthfront.com'
     }
   ];
 
   const brands = [
+    // ETF Providers
     {
       id: 1,
       name: 'Vanguard ETFs',
-      description: 'Low-cost index funds and ETFs perfect for long-term investing.',
+      description: 'World\'s largest low-cost index fund provider with global market exposure.',
       type: 'ETF Provider',
       expenseRatio: '0.03% - 0.20%',
       category: 'etf',
       logo: '📈',
-      popularFunds: ['VTI', 'VOO', 'VXUS', 'BND']
+      popularFunds: ['VTI (Total Stock)', 'VXUS (Intl)', 'VEA (Developed)', 'VWO (Emerging)']
     },
     {
       id: 2,
-      name: 'Apple (AAPL)',
-      description: 'Technology giant known for innovation in consumer electronics.',
-      type: 'Individual Stock',
-      sector: 'Technology',
-      category: 'stock',
-      logo: '🍎',
-      marketCap: '$3.0T'
+      name: 'iShares by BlackRock',
+      description: 'Global ETF leader with comprehensive emerging markets and frontier exposure.',
+      type: 'ETF Provider',
+      expenseRatio: '0.05% - 0.75%',
+      category: 'etf',
+      logo: '⚫',
+      popularFunds: ['EEM (Emerging)', 'VWO (Emerging)', 'ACWI (World)', 'IEMG (Core EM)']
     },
     {
       id: 3,
-      name: 'Bitcoin',
-      description: 'The original cryptocurrency and digital store of value.',
-      type: 'Cryptocurrency',
-      volatility: 'High',
-      category: 'crypto',
-      logo: '₿',
-      marketCap: '$800B+'
+      name: 'SPDR ETFs',
+      description: 'Pioneer in ETFs with sector-specific and regional investment options.',
+      type: 'ETF Provider',
+      expenseRatio: '0.09% - 0.60%',
+      category: 'etf',
+      logo: '🕷️',
+      popularFunds: ['SPY (S&P 500)', 'GLD (Gold)', 'XLF (Financials)', 'EWZ (Brazil)']
     },
+    // African Stocks
     {
       id: 4,
-      name: 'REIT Index',
-      description: 'Real Estate Investment Trusts for property market exposure.',
-      type: 'Real Estate',
-      dividendYield: '3-5%',
-      category: 'reit',
-      logo: '🏢',
-      diversification: 'High'
+      name: 'Naspers/Prosus (JSE)',
+      description: 'African tech giant with global investments including Tencent stake.',
+      type: 'African Stock',
+      sector: 'Technology',
+      category: 'african-stock',
+      logo: '🇿🇦',
+      marketCap: '$45B+',
+      diversification: 'Global tech exposure'
+    },
+    {
+      id: 5,
+      name: 'Dangote Cement (NSE)',
+      description: 'Africa\'s largest cement producer with pan-African operations.',
+      type: 'African Stock',
+      sector: 'Materials',
+      category: 'african-stock',
+      logo: '🇳🇬',
+      marketCap: '$4B+',
+      diversification: 'Pan-African infrastructure'
+    },
+    {
+      id: 6,
+      name: 'Safaricom (NSE)',
+      description: 'Kenya\'s leading telecom with innovative mobile money services.',
+      type: 'African Stock',
+      sector: 'Telecommunications',
+      category: 'african-stock',
+      logo: '🇰🇪',
+      marketCap: '$12B+',
+      dividendYield: '7-9%'
+    },
+    // International Blue Chips
+    {
+      id: 7,
+      name: 'Apple (AAPL)',
+      description: 'Global technology leader with strong presence in emerging markets.',
+      type: 'Global Stock',
+      sector: 'Technology',
+      category: 'international-stock',
+      logo: '🍎',
+      marketCap: '$3.0T+',
+      diversification: 'Global consumer tech'
+    },
+    {
+      id: 8,
+      name: 'Microsoft (MSFT)',
+      description: 'Cloud computing giant with growing African market investments.',
+      type: 'Global Stock',
+      sector: 'Technology',
+      category: 'international-stock',
+      logo: '💻',
+      marketCap: '$2.8T+',
+      diversification: 'Enterprise & cloud'
+    },
+    {
+      id: 9,
+      name: 'Coca-Cola (KO)',
+      description: 'Global beverage company with significant African operations.',
+      type: 'Global Stock',
+      sector: 'Consumer Staples',
+      category: 'international-stock',
+      logo: '🥤',
+      marketCap: '$250B+',
+      dividendYield: '3.1%'
+    },
+    // Commodities & Resources
+    {
+      id: 10,
+      name: 'Gold ETFs (GLD/IAU)',
+      description: 'Physical gold exposure, important for African investors as hedge.',
+      type: 'Commodity ETF',
+      volatility: 'Medium',
+      category: 'commodity',
+      logo: '🥇',
+      diversification: 'Inflation hedge'
+    },
+    {
+      id: 11,
+      name: 'Oil ETFs (USO/XLE)',
+      description: 'Energy sector exposure for resource-rich African economies.',
+      type: 'Commodity ETF',
+      sector: 'Energy',
+      category: 'commodity',
+      logo: '🛢️',
+      volatility: 'High'
+    },
+    // Emerging Market Funds
+    {
+      id: 12,
+      name: 'Emerging Markets ETF (VWO)',
+      description: 'Broad emerging markets exposure including African markets.',
+      type: 'Regional ETF',
+      expenseRatio: '0.10%',
+      category: 'emerging',
+      logo: '🌍',
+      diversification: 'Emerging markets'
     }
   ];
 
@@ -127,10 +293,10 @@ const Brokers: React.FC = () => {
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2">
             <Building2 className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold">Investment Brokers & Brands</h1>
+            <h1 className="text-2xl font-bold">Global Investment Brokers & Brands</h1>
           </div>
           <p className="text-muted-foreground">
-            Discover trusted platforms and popular investment options to start your journey
+            Discover trusted platforms and investment options across Africa and internationally
           </p>
         </div>
 
@@ -156,18 +322,18 @@ const Brokers: React.FC = () => {
                   All
                 </Button>
                 <Button
-                  variant={selectedCategory === 'traditional' ? 'default' : 'outline'}
+                  variant={selectedCategory === 'international' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setSelectedCategory('traditional')}
+                  onClick={() => setSelectedCategory('international')}
                 >
-                  Traditional
+                  International
                 </Button>
                 <Button
-                  variant={selectedCategory === 'mobile' ? 'default' : 'outline'}
+                  variant={selectedCategory === 'african' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setSelectedCategory('mobile')}
+                  onClick={() => setSelectedCategory('african')}
                 >
-                  Mobile
+                  African
                 </Button>
                 <Button
                   variant={selectedCategory === 'robo' ? 'default' : 'outline'}
@@ -189,7 +355,7 @@ const Brokers: React.FC = () => {
             </TabsTrigger>
             <TabsTrigger value="brands" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              Popular Investments
+              Investment Options
             </TabsTrigger>
           </TabsList>
 
@@ -220,60 +386,98 @@ const Brokers: React.FC = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Getting Started Section */}
+        {/* African Investment Guide */}
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Star className="h-5 w-5 text-yellow-500" />
-              Getting Started Tips
+              African Investment Guide
             </CardTitle>
             <CardDescription>
-              New to investing? Here's how to choose the right broker and investments
+              Essential information for investing from African countries
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold mb-3 text-primary">Choosing a Broker</h4>
+                <h4 className="font-semibold mb-3 text-primary">Choosing International Brokers</h4>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">•</span>
-                    <span>Look for zero commission on stocks and ETFs</span>
+                    <span>Verify broker accepts clients from your country</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">•</span>
-                    <span>Consider mobile apps if you prefer trading on-the-go</span>
+                    <span>Check currency conversion fees and payment methods</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">•</span>
-                    <span>Check for educational resources and research tools</span>
+                    <span>Ensure compliance with local tax regulations</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">•</span>
-                    <span>Ensure they offer fractional shares for expensive stocks</span>
+                    <span>Look for platforms with African customer support</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-3 text-primary">First Investments</h4>
+                <h4 className="font-semibold mb-3 text-primary">Investment Strategy for Africa</h4>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <span className="text-blue-500 mt-1">•</span>
-                    <span>Start with broad market ETFs (like VTI or VOO)</span>
+                    <span>Diversify between local and international markets</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-blue-500 mt-1">•</span>
-                    <span>Consider target-date funds for retirement accounts</span>
+                    <span>Consider currency hedging for USD investments</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-blue-500 mt-1">•</span>
-                    <span>Diversify across different asset classes</span>
+                    <span>Include commodity exposure (gold, oil) as hedge</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-blue-500 mt-1">•</span>
-                    <span>Avoid individual stocks until you gain experience</span>
+                    <span>Start with broad market ETFs before individual stocks</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Country-Specific Information */}
+        <Card className="glass-panel">
+          <CardHeader>
+            <CardTitle>African Market Access by Country</CardTitle>
+            <CardDescription>
+              Popular brokers and investment options by African region
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <h5 className="font-medium text-primary">🇿🇦 South Africa</h5>
+                <p className="text-sm text-muted-foreground">EasyEquities, Standard Bank, Absa, International Brokers</p>
+              </div>
+              <div className="space-y-2">
+                <h5 className="font-medium text-primary">🇳🇬 Nigeria</h5>
+                <p className="text-sm text-muted-foreground">Bamboo, Chaka, Trove Finance, International platforms</p>
+              </div>
+              <div className="space-y-2">
+                <h5 className="font-medium text-primary">🇰🇪 Kenya</h5>
+                <p className="text-sm text-muted-foreground">Genghis Capital, Standard Investment Bank, International brokers</p>
+              </div>
+              <div className="space-y-2">
+                <h5 className="font-medium text-primary">🇪🇬 Egypt</h5>
+                <p className="text-sm text-muted-foreground">EFG Hermes, HC Securities, International platforms</p>
+              </div>
+              <div className="space-y-2">
+                <h5 className="font-medium text-primary">🇲🇦 Morocco</h5>
+                <p className="text-sm text-muted-foreground">Attijari Intermediation, CFG Bank, International access</p>
+              </div>
+              <div className="space-y-2">
+                <h5 className="font-medium text-primary">🌍 Pan-African</h5>
+                <p className="text-sm text-muted-foreground">Interactive Brokers, eToro, Standard Bank Group</p>
               </div>
             </div>
           </CardContent>
