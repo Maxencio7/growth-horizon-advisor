@@ -148,7 +148,7 @@ const AdvancedMetrics: React.FC<AdvancedMetricsProps> = ({ investments }) => {
           <div className="bg-muted/30 p-4 rounded-lg">
             <h5 className="font-medium mb-2">Professional Insights</h5>
             <ul className="text-sm space-y-1 text-muted-foreground">
-              {sharpeRatio > 1 && <li>• Excellent risk-adjusted returns (Sharpe > 1.0)</li>}
+              {sharpeRatio > 1 && <li>• Excellent risk-adjusted returns (Sharpe {'>'} 1.0)</li>}
               {diversificationScore > 70 && <li>• Well-diversified portfolio structure</li>}
               {getRiskScore(investments) < 40 && <li>• Conservative risk profile suitable for capital preservation</li>}
               {getRiskScore(investments) > 60 && <li>• Aggressive strategy targeting high growth potential</li>}
