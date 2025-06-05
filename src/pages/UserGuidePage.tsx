@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,14 +17,39 @@ const UserGuidePage: React.FC = () => {
             <h3 className="text-xl font-medium text-orange-300 mb-3">Portfolio Summary</h3>
             <p className="mb-3">At the top of your dashboard, you'll find a summary of your entire investment portfolio including:</p>
             <ul className="list-disc list-inside mt-2 space-y-2 text-muted-foreground">
-              <li>Total invested amount</li>
-              <li>Projected final value</li>
-              <li>Expected return</li>
-              <li>Return on investment (ROI)</li>
+              <li><strong>Total Invested:</strong> The total amount of money you've put into investments</li>
+              <li><strong>Projected Value:</strong> What your investments are expected to be worth at maturity</li>
+              <li><strong>Expected Return:</strong> The profit you're projected to make</li>
+              <li><strong>ROI (Return on Investment):</strong> The percentage return on your money</li>
             </ul>
             <div className="mt-4 glass-panel p-4 rounded-lg">
-              <h4 className="font-medium text-orange-200 mb-2">Pro Tip</h4>
-              <p className="text-sm text-muted-foreground">Use the portfolio summary to quickly assess your overall investment performance and track your progress toward financial goals.</p>
+              <h4 className="font-medium text-orange-200 mb-2">Beginner Tip</h4>
+              <p className="text-sm text-muted-foreground">Focus on consistent monthly contributions rather than trying to time the market. Small, regular investments often outperform large, sporadic ones.</p>
+            </div>
+          </div>
+          
+          <div className="premium-card rounded-lg p-6">
+            <h3 className="text-xl font-medium text-orange-300 mb-3">Beginner vs Advanced View</h3>
+            <p className="mb-3">Switch between viewing modes to match your experience level:</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="glass-panel p-4 rounded-lg">
+                <h4 className="font-medium text-green-200 mb-2">Beginner Mode:</h4>
+                <ul className="list-disc list-inside mt-1 space-y-1 text-muted-foreground text-sm">
+                  <li>Educational content and tips</li>
+                  <li>Simple, clear explanations</li>
+                  <li>Learning resources</li>
+                  <li>Basic investment metrics</li>
+                </ul>
+              </div>
+              <div className="glass-panel p-4 rounded-lg">
+                <h4 className="font-medium text-blue-200 mb-2">Advanced Mode:</h4>
+                <ul className="list-disc list-inside mt-1 space-y-1 text-muted-foreground text-sm">
+                  <li>Professional analytics</li>
+                  <li>Sharpe ratio and CAGR</li>
+                  <li>Risk-adjusted returns</li>
+                  <li>Portfolio diversification metrics</li>
+                </ul>
+              </div>
             </div>
           </div>
           
@@ -66,26 +90,31 @@ const UserGuidePage: React.FC = () => {
             <h3 className="text-xl font-medium text-orange-300 mb-3">Investment Details</h3>
             <p className="mb-3">When adding a new investment, you'll need to provide:</p>
             <ul className="list-disc list-inside mt-2 space-y-2 text-muted-foreground">
-              <li>Investment name (e.g., "Retirement Fund")</li>
-              <li>Investment type (Stocks, Bonds, Real Estate, etc.)</li>
-              <li>Monthly contribution amount</li>
-              <li>Expected interest rate (%)</li>
-              <li>Investment duration (months)</li>
-              <li>Start date</li>
-              <li>Risk level (Low, Medium, High)</li>
+              <li><strong>Investment Name:</strong> Give it a meaningful name (e.g., "Emergency Fund", "Retirement Savings")</li>
+              <li><strong>Investment Type:</strong> Choose from Stocks, Bonds, Real Estate, etc.</li>
+              <li><strong>Monthly Amount:</strong> How much you plan to invest each month</li>
+              <li><strong>Expected Interest Rate:</strong> Research historical averages for your investment type</li>
+              <li><strong>Duration:</strong> How long you plan to invest (longer = more compound growth)</li>
+              <li><strong>Start Date:</strong> When you'll begin investing</li>
+              <li><strong>Risk Level:</strong> Your comfort level with potential losses</li>
             </ul>
             <div className="mt-4 glass-panel p-4 rounded-lg">
-              <h4 className="font-medium text-orange-200 mb-2">Pro Tip</h4>
-              <p className="text-sm text-muted-foreground">Be realistic about interest rates. Use historical averages for your chosen investment type rather than overly optimistic projections.</p>
+              <h4 className="font-medium text-orange-200 mb-2">Beginner Guidelines</h4>
+              <div className="text-sm text-muted-foreground space-y-1">
+                <p>• <strong>Conservative:</strong> 3-6% return (Bonds, CDs)</p>
+                <p>• <strong>Moderate:</strong> 6-10% return (Mutual Funds, ETFs)</p>
+                <p>• <strong>Aggressive:</strong> 8-12% return (Individual Stocks)</p>
+                <p>• Start with 10-15% of your income if possible</p>
+              </div>
             </div>
           </div>
           
           <div className="premium-card rounded-lg p-6">
             <h3 className="text-xl font-medium text-orange-300 mb-3">Investment Preview</h3>
-            <p className="mb-3">As you enter your investment details, you'll see a real-time preview of your projected investment growth and final value.</p>
+            <p className="mb-3">As you enter your investment details, you'll see a real-time preview showing how your money could grow over time through compound interest.</p>
             <div className="mt-4 glass-panel p-4 rounded-lg">
-              <h4 className="font-medium text-orange-200 mb-2">Pro Tip</h4>
-              <p className="text-sm text-muted-foreground">Try adjusting different parameters to see how they affect your final investment value. Small changes in interest rate or monthly contribution can have significant long-term impacts.</p>
+              <h4 className="font-medium text-orange-200 mb-2">Understanding the Preview</h4>
+              <p className="text-sm text-muted-foreground">The chart shows your money growing month by month. Notice how the growth accelerates over time - that's the power of compounding at work!</p>
             </div>
           </div>
         </div>
@@ -98,34 +127,50 @@ const UserGuidePage: React.FC = () => {
       content: (
         <div className="space-y-6">
           <div className="premium-card rounded-lg p-6">
-            <h3 className="text-xl font-medium text-orange-300 mb-3">Interactive Chat</h3>
-            <p className="mb-3">The AI Investment Advisor provides personalized guidance through a chat interface. You can ask questions about:</p>
+            <h3 className="text-xl font-medium text-orange-300 mb-3">Your Personal Investment Coach</h3>
+            <p className="mb-3">The AI Investment Advisor is like having a personal financial coach available 24/7. Ask questions about:</p>
             <ul className="list-disc list-inside mt-2 space-y-2 text-muted-foreground">
-              <li>Portfolio analysis and insights</li>
-              <li>Investment diversification strategies</li>
-              <li>Goal-based planning and tracking</li>
-              <li>Specific investment calculations</li>
-              <li>AI integration recommendations for your investment strategy</li>
+              <li><strong>Basic Questions:</strong> "What's the difference between stocks and bonds?"</li>
+              <li><strong>Portfolio Analysis:</strong> "Is my portfolio well-diversified?"</li>
+              <li><strong>Goal Planning:</strong> "How much should I save for retirement?"</li>
+              <li><strong>Risk Assessment:</strong> "Am I taking too much or too little risk?"</li>
+              <li><strong>Strategy Help:</strong> "Should I invest more aggressively at my age?"</li>
             </ul>
-            <div className="mt-4 glass-panel p-4 rounded-lg">
-              <h4 className="font-medium text-orange-200 mb-2">Pro Tip</h4>
-              <p className="text-sm text-muted-foreground">The AI advisor takes into account your existing investments when providing advice, making recommendations relevant to your specific portfolio.</p>
+          </div>
+          
+          <div className="premium-card rounded-lg p-6">
+            <h3 className="text-xl font-medium text-orange-300 mb-3">Sample Beginner Questions</h3>
+            <div className="space-y-3">
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"I'm 25 and just started working. How should I begin investing?"</p>
+              </div>
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"What's a safe amount to invest each month from my salary?"</p>
+              </div>
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"Should I pay off debt first or start investing?"</p>
+              </div>
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"How do I know if my investment returns are good?"</p>
+              </div>
             </div>
           </div>
           
           <div className="premium-card rounded-lg p-6">
-            <h3 className="text-xl font-medium text-orange-300 mb-3">Sample Questions</h3>
-            <p className="mb-3">Try asking questions like:</p>
-            <ul className="list-disc list-inside mt-2 space-y-2 text-muted-foreground">
-              <li>"How much will I earn if I invest $500 monthly at 8% for 5 years?"</li>
-              <li>"Can you analyze my current portfolio?"</li>
-              <li>"What AI tools would you recommend for my investment strategy?"</li>
-              <li>"Should I diversify my investments more?"</li>
-              <li>"How do my investments align with my retirement goals?"</li>
-            </ul>
-            <div className="mt-4 glass-panel p-4 rounded-lg">
-              <h4 className="font-medium text-orange-200 mb-2">Pro Tip</h4>
-              <p className="text-sm text-muted-foreground">Be specific with your questions to get the most relevant advice. The more details you provide, the more tailored the response will be.</p>
+            <h3 className="text-xl font-medium text-orange-300 mb-3">Sample Advanced Questions</h3>
+            <div className="space-y-3">
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"What's the best way to diversify my portfolio?"</p>
+              </div>
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"How can I calculate my investment return?"</p>
+              </div>
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"What's the difference between a mutual fund and an ETF?"</p>
+              </div>
+              <div className="glass-panel p-3 rounded-lg">
+                <p className="text-sm font-medium text-orange-200">"How do I adjust my investment strategy as my financial goals change?"</p>
+              </div>
             </div>
           </div>
         </div>
