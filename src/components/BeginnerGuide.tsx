@@ -5,25 +5,27 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, TrendingUp, Shield, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const BeginnerGuide: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const navigate = useNavigate();
 
   const beginnerSteps = [
     {
       title: "Understanding Investment Basics",
-      icon: <BookOpen className="h-5 w-5 text-blue-500" />,
+      icon: <BookOpen className="h-5 w-5 text-primary" />,
       content: (
         <div className="space-y-4">
           <p>Investment is putting your money to work to generate more money over time through compound growth.</p>
-          <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
-            <h4 className="font-semibold text-blue-800">Key Concept: Compound Interest</h4>
-            <p className="text-blue-700">Your money grows not just on your initial investment, but also on the growth you've already earned.</p>
+          <div className="glass-panel p-4 rounded-lg border-l-4 border-primary">
+            <h4 className="font-semibold text-primary">Key Concept: Compound Interest</h4>
+            <p className="text-muted-foreground">Your money grows not just on your initial investment, but also on the growth you've already earned.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-green-50 p-3 rounded-lg">
-              <h5 className="font-medium text-green-800">Example:</h5>
-              <p className="text-sm text-green-700">$100 at 8% annual return becomes $108 after 1 year, then $116.64 after 2 years (earning interest on the $8 gain too)</p>
+            <div className="glass-panel p-3 rounded-lg border-l-2 border-accent">
+              <h5 className="font-medium text-accent">Example:</h5>
+              <p className="text-sm text-muted-foreground">$100 at 8% annual return becomes $108 after 1 year, then $116.64 after 2 years (earning interest on the $8 gain too)</p>
             </div>
           </div>
         </div>
@@ -31,37 +33,37 @@ const BeginnerGuide: React.FC = () => {
     },
     {
       title: "Risk vs Return",
-      icon: <Shield className="h-5 w-5 text-orange-500" />,
+      icon: <Shield className="h-5 w-5 text-primary" />,
       content: (
         <div className="space-y-4">
           <p>Higher potential returns usually come with higher risk. Understanding this relationship is crucial.</p>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 glass-panel rounded-lg border-l-2 border-accent">
               <div>
-                <Badge variant="secondary" className="bg-green-100 text-green-800">Low Risk</Badge>
+                <Badge variant="secondary" className="bg-accent/20 text-accent">Low Risk</Badge>
                 <p className="text-sm mt-1">Bonds, Savings (2-4% return)</p>
               </div>
-              <div className="text-right text-green-700">
+              <div className="text-right text-accent">
                 <p className="font-semibold">Stable</p>
                 <p className="text-xs">Low volatility</p>
               </div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 glass-panel rounded-lg border-l-2 border-primary">
               <div>
-                <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Medium Risk</Badge>
+                <Badge variant="secondary" className="bg-primary/20 text-primary">Medium Risk</Badge>
                 <p className="text-sm mt-1">Mutual Funds, ETFs (6-10% return)</p>
               </div>
-              <div className="text-right text-yellow-700">
+              <div className="text-right text-primary">
                 <p className="font-semibold">Balanced</p>
                 <p className="text-xs">Moderate volatility</p>
               </div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 glass-panel rounded-lg border-l-2 border-destructive">
               <div>
-                <Badge variant="secondary" className="bg-red-100 text-red-800">High Risk</Badge>
+                <Badge variant="secondary" className="bg-destructive/20 text-destructive">High Risk</Badge>
                 <p className="text-sm mt-1">Stocks, Crypto (Variable return)</p>
               </div>
-              <div className="text-right text-red-700">
+              <div className="text-right text-destructive">
                 <p className="font-semibold">Growth Potential</p>
                 <p className="text-xs">High volatility</p>
               </div>
@@ -72,13 +74,13 @@ const BeginnerGuide: React.FC = () => {
     },
     {
       title: "Dollar-Cost Averaging",
-      icon: <DollarSign className="h-5 w-5 text-purple-500" />,
+      icon: <DollarSign className="h-5 w-5 text-primary" />,
       content: (
         <div className="space-y-4">
           <p>Investing the same amount regularly, regardless of market conditions, helps reduce the impact of market volatility.</p>
-          <div className="bg-purple-50 p-4 rounded-lg">
-            <h4 className="font-semibold text-purple-800">Why Monthly Investing Works:</h4>
-            <ul className="list-disc list-inside mt-2 space-y-1 text-purple-700">
+          <div className="glass-panel p-4 rounded-lg border-l-4 border-accent">
+            <h4 className="font-semibold text-accent">Why Monthly Investing Works:</h4>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-muted-foreground">
               <li>You buy more shares when prices are low</li>
               <li>You buy fewer shares when prices are high</li>
               <li>This averages out your cost over time</li>
@@ -90,11 +92,15 @@ const BeginnerGuide: React.FC = () => {
     }
   ];
 
+  const handleContinueLearning = () => {
+    navigate('/add-investment');
+  };
+
   return (
-    <Card className="max-w-4xl mx-auto">
+    <Card className="max-w-4xl mx-auto premium-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <BookOpen className="h-6 w-6 text-blue-500" />
+          <BookOpen className="h-6 w-6 text-primary" />
           Investment Basics for Beginners
         </CardTitle>
         <CardDescription>
@@ -103,9 +109,13 @@ const BeginnerGuide: React.FC = () => {
       </CardHeader>
       <CardContent>
         <Tabs value={currentStep.toString()} onValueChange={(value) => setCurrentStep(parseInt(value))}>
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-3 bg-black/30">
             {beginnerSteps.map((step, index) => (
-              <TabsTrigger key={index} value={index.toString()} className="flex items-center gap-2">
+              <TabsTrigger 
+                key={index} 
+                value={index.toString()} 
+                className="flex items-center gap-2 data-[state=active]:bg-primary/20 data-[state=active]:text-primary"
+              >
                 {step.icon}
                 <span className="hidden sm:inline">{step.title}</span>
               </TabsTrigger>
@@ -134,8 +144,14 @@ const BeginnerGuide: React.FC = () => {
             Previous
           </Button>
           <Button 
-            onClick={() => setCurrentStep(Math.min(beginnerSteps.length - 1, currentStep + 1))}
-            disabled={currentStep === beginnerSteps.length - 1}
+            onClick={() => {
+              if (currentStep === beginnerSteps.length - 1) {
+                handleContinueLearning();
+              } else {
+                setCurrentStep(Math.min(beginnerSteps.length - 1, currentStep + 1));
+              }
+            }}
+            className="premium-button"
           >
             {currentStep === beginnerSteps.length - 1 ? 'Start Investing' : 'Next'}
           </Button>

@@ -17,7 +17,7 @@ const ThemeToggle = () => {
       <Toggle 
         pressed={!isDark} 
         onPressedChange={() => toggleTheme()}
-        className={`p-2 rounded-full ${isDark ? 'bg-primary/10' : 'bg-blue-500/10'} ${isDark ? 'text-primary' : 'text-blue-500'} hover:bg-primary/20`}
+        className={`p-2 rounded-full ${isDark ? 'bg-primary/10' : 'bg-primary/10'} ${isDark ? 'text-primary' : 'text-primary'} hover:bg-primary/20`}
         aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       >
         {isDark ? (
@@ -34,7 +34,7 @@ const ThemeToggle = () => {
       variant="outline"
       size="sm"
       onClick={toggleTheme}
-      className={`${isDark ? 'border-primary/20 bg-primary/5 hover:bg-primary/10' : 'border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10'} transition-colors`}
+      className={`${isDark ? 'border-primary/20 bg-primary/5 hover:bg-primary/10' : 'border-primary/20 bg-primary/5 hover:bg-primary/10'} transition-colors`}
     >
       {isDark ? (
         <div className="flex items-center">

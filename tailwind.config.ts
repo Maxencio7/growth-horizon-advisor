@@ -75,13 +75,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				finance: {
-					primary: '#1E88E5', // Changed to blue for light mode
-					secondary: '#64B5F6', // Light blue for secondary elements
+					primary: '#F97316', // Orange for both modes
+					secondary: '#FB923C', // Light orange for secondary elements
 					accent: '#10B981', // Keeping green for positive growth indicators
 					danger: '#EF4444', // Keeping red for negative indicators
-					neutral: '#64748B', // Darker neutral color
-					light: '#FFFFFF', // Changed to white background
-					dark: '#0A1929', // Changed to dark blue text
+					neutral: '#64748B', // Neutral color
+					light: '#FFF7ED', // Light orange background for light mode
+					dark: '#1A0B06', // Dark orange background for dark mode
 				}
 			},
 			borderRadius: {
@@ -115,9 +115,9 @@ export default {
 					'100%': { transform: 'translateY(0)', opacity: '1' }
 				},
 				'pulse-light': {
-					'0%': { boxShadow: '0 0 0 0 rgba(30, 136, 229, 0.2)' }, // Updated for blue
-					'70%': { boxShadow: '0 0 0 10px rgba(30, 136, 229, 0)' }, // Updated for blue
-					'100%': { boxShadow: '0 0 0 0 rgba(30, 136, 229, 0)' }, // Updated for blue
+					'0%': { boxShadow: '0 0 0 0 rgba(249, 115, 22, 0.2)' }, // Orange theme
+					'70%': { boxShadow: '0 0 0 10px rgba(249, 115, 22, 0)' }, // Orange theme
+					'100%': { boxShadow: '0 0 0 0 rgba(249, 115, 22, 0)' }, // Orange theme
 				},
 				'shine': {
 					'to': { backgroundPosition: '200% center' }
@@ -132,11 +132,11 @@ export default {
 				'shine': 'shine 3s linear infinite'
 			},
 			backgroundImage: {
-				'gradient-premium': 'linear-gradient(135deg, #0A1929 0%, #1A365D 100%)', // Updated for blue
-				'gradient-premium-light': 'linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%)', // Updated for light blue
-				'gradient-blue': 'linear-gradient(90deg, #1E88E5 0%, #64B5F6 100%)', // Changed from orange to blue
+				'gradient-premium': 'linear-gradient(135deg, #0A1929 0%, #1A365D 100%)', // Dark mode
+				'gradient-premium-light': 'linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)', // Light mode with orange tint
+				'gradient-orange': 'linear-gradient(90deg, #F97316 0%, #FB923C 100%)', // Orange gradient
 				'gradient-card': 'linear-gradient(135deg, #1a1a1a 0%, #262626 100%)',
-				'gradient-card-light': 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)', // Updated for white
+				'gradient-card-light': 'linear-gradient(135deg, #FFFFFF 0%, #FFF7ED 100%)', // Light mode with subtle orange
 			},
 			spacing: {
 				'18': '4.5rem',

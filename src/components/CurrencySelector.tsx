@@ -31,18 +31,18 @@ const CurrencySelector: React.FC = () => {
   return (
     <div className="flex items-center space-x-2">
       <Select value={currency} onValueChange={(value) => setCurrency(value as CurrencyCode)}>
-        <SelectTrigger className="w-[180px] border-orange-900/30 bg-black/20 backdrop-blur-sm text-orange-100">
+        <SelectTrigger className="w-[180px] border-primary/30 bg-black/20 backdrop-blur-sm text-foreground">
           <SelectValue placeholder="Select currency" />
         </SelectTrigger>
-        <SelectContent className="bg-gradient-premium border border-orange-900/30 text-orange-100">
+        <SelectContent className="bg-gradient-premium border border-primary/30 text-foreground">
           {currencies.map((curr) => (
             <SelectItem 
               key={curr.value} 
               value={curr.value}
-              className="hover:bg-orange-500/10 focus:bg-orange-500/20 focus:text-orange-300"
+              className="hover:bg-primary/10 focus:bg-primary/20 focus:text-primary"
             >
               <div className="flex items-center">
-                <span className="mr-2 text-orange-400">{curr.icon}</span>
+                <span className="mr-2 text-primary">{curr.icon}</span>
                 <span>{curr.label}</span>
               </div>
             </SelectItem>

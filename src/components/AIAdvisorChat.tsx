@@ -32,12 +32,12 @@ const AIAdvisorChat: React.FC = () => {
   }, [messages]);
 
   return (
-    <Card className="max-w-3xl mx-auto h-[80vh] flex flex-col glass-panel border-orange-500/20 shadow-lg hover:shadow-orange-500/10 transition-shadow duration-300">
+    <Card className="max-w-3xl mx-auto h-[80vh] flex flex-col glass-panel border-primary/20 shadow-lg hover:shadow-primary/10 transition-shadow duration-300">
       <CardHeader className="space-y-1 pb-2">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <CardTitle className="text-orange-400 flex items-center">
-              AI Advisor <Sparkles className="h-4 w-4 ml-2 text-orange-300 animate-pulse" />
+            <CardTitle className="text-primary flex items-center">
+              AI Advisor <Sparkles className="h-4 w-4 ml-2 text-accent animate-pulse" />
             </CardTitle>
           </div>
           <Button 
@@ -45,7 +45,7 @@ const AIAdvisorChat: React.FC = () => {
             size="icon" 
             onClick={clearMessages}
             title="Reset conversation"
-            className="hover:bg-orange-500/10 text-orange-400 hover:text-orange-300 transition-colors"
+            className="hover:bg-primary/10 text-primary hover:text-accent transition-colors"
           >
             <RefreshCw className="h-4 w-4" />
           </Button>
@@ -68,8 +68,8 @@ const AIAdvisorChat: React.FC = () => {
                   className={cn(
                     "max-w-[85%] rounded-lg p-3.5 shadow-sm",
                     message.role === 'assistant' 
-                      ? "bg-black/40 border border-orange-500/20 rounded-tl-none" 
-                      : "bg-gradient-to-br from-orange-500/90 to-orange-700/80 text-white rounded-tr-none",
+                      ? "bg-card/50 border border-primary/20 rounded-tl-none" 
+                      : "bg-gradient-to-br from-primary/90 to-accent/80 text-primary-foreground rounded-tr-none",
                     "transform transition-all duration-200 hover:shadow-md"
                   )}
                 >
@@ -79,11 +79,11 @@ const AIAdvisorChat: React.FC = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="max-w-[85%] rounded-lg p-3.5 bg-black/40 border border-orange-500/20 rounded-tl-none shadow-sm">
+                <div className="max-w-[85%] rounded-lg p-3.5 bg-card/40 border border-primary/20 rounded-tl-none shadow-sm">
                   <div className="flex space-x-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-orange-400 animate-bounce"></div>
-                    <div className="w-2 h-2 rounded-full bg-orange-500 animate-bounce delay-75"></div>
-                    <div className="w-2 h-2 rounded-full bg-orange-600 animate-bounce delay-150"></div>
+                    <div className="w-2 h-2 rounded-full bg-primary animate-bounce"></div>
+                    <div className="w-2 h-2 rounded-full bg-accent animate-bounce delay-75"></div>
+                    <div className="w-2 h-2 rounded-full bg-primary animate-bounce delay-150"></div>
                   </div>
                 </div>
               </div>
@@ -92,14 +92,14 @@ const AIAdvisorChat: React.FC = () => {
           </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="border-t border-orange-500/20 pt-3">
+      <CardFooter className="border-t border-primary/20 pt-3">
         <form onSubmit={handleSendMessage} className="w-full flex space-x-2">
           <Input
             placeholder="Ask about your investments or AI integrations..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             disabled={isLoading}
-            className="flex-grow bg-black/20 border-orange-500/30 focus-visible:ring-orange-500/50 focus-visible:border-orange-500/50 transition-all"
+            className="flex-grow bg-black/20 border-primary/30 focus-visible:ring-primary/50 focus-visible:border-primary/50 transition-all"
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -112,7 +112,7 @@ const AIAdvisorChat: React.FC = () => {
           <Button 
             type="submit" 
             disabled={isLoading || inputValue.trim() === ''}
-            className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-orange-500/20"
+            className="premium-button shadow-md hover:shadow-lg hover:shadow-primary/20"
           >
             <SendIcon className="h-4 w-4 mr-2" />
             Send
