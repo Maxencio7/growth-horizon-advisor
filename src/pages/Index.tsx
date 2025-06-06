@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -16,12 +15,17 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { calculateInvestmentGrowth } from '@/utils/investmentCalculator';
 import { BookOpen, BarChart3, GraduationCap, TrendingUp, Users, Target } from 'lucide-react';
+import CountrySelector from '@/components/CountrySelector';
+import CountryDashboard from '@/components/CountryDashboard';
+import { useCountry } from '@/contexts/CountryContext';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Index: React.FC = () => {
   const { investments } = useInvestments();
   const { user, isGuest } = useAuth();
   const isMobile = useIsMobile();
   const [viewMode, setViewMode] = useState<'beginner' | 'advanced'>('beginner');
+  const { selectedCountry } = useCountry();
 
   // Calculate projections for all investments
   const investmentsWithProjections = React.useMemo(() => {
@@ -32,7 +36,7 @@ const Index: React.FC = () => {
 
   return (
     <AppLayout>
-      <div className="space-y-4 md:space-y-6">
+      <div className="space-y-6">
         {/* Header Section */}
         <div className={`flex ${isMobile ? 'flex-col space-y-3' : 'justify-between items-start'}`}>
           <div className="space-y-2">
@@ -87,66 +91,32 @@ const Index: React.FC = () => {
         
         <Separator />
 
-        {/* Main Content */}
-        {isNewUser ? (
-          <Tabs defaultValue="learn" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="learn" className="flex items-center gap-2">
-                <BookOpen className="h-4 w-4" />
-                Learn First
-              </TabsTrigger>
-              <TabsTrigger value="guide" className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                Get Started
-              </TabsTrigger>
-              <TabsTrigger value="start" className="flex items-center gap-2">
-                <Target className="h-4 w-4" />
-                Start Investing
-              </TabsTrigger>
-            </TabsList>
+        {/* Country Selection Section */}
+        {!selectedCountry && (
+          <Card className="glass-panel border-primary/20">
+            <CardHeader>
+              <CardTitle className="text-xl text-primary">Get Started</CardTitle>
+              <CardDescription>
+                Select your country to get personalized investment recommendations and local broker information
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CountrySelector />
+            </CardContent>
+          </Card>
+        )}
 
-            <TabsContent value="learn" className="mt-6">
-              <InvestmentEducation />
-            </TabsContent>
+        {/* Main Content Tabs */}
+        <Tabs defaultValue="portfolio" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
+            <TabsTrigger value="country" disabled={!selectedCountry}>
+              {selectedCountry ? `${selectedCountry.flag} ${selectedCountry.name}` : 'Country Info'}
+            </TabsTrigger>
+            <TabsTrigger value="education">Education</TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="guide" className="mt-6">
-              <BeginnerGuide />
-            </TabsContent>
-
-            <TabsContent value="start" className="mt-6">
-              <div className="bg-muted/40 rounded-lg p-4 md:p-8 text-center">
-                <div className="max-w-2xl mx-auto space-y-4">
-                  <h2 className="text-lg md:text-xl font-semibold">Ready to Start Your Investment Journey?</h2>
-                  <p className="text-muted-foreground text-sm md:text-base">
-                    You've learned the basics. Now it's time to create your first investment and watch your money grow through the power of compound interest.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button
-                      className="bg-finance-primary hover:bg-finance-primary/90"
-                      asChild
-                      size="lg"
-                    >
-                      <Link to="/add-investment">
-                        <TrendingUp className="h-5 w-5 mr-2" />
-                        Create My First Investment
-                      </Link>
-                    </Button>
-                    <Button variant="outline" asChild size="lg">
-                      <Link to="/advisor">
-                        <Users className="h-5 w-5 mr-2" />
-                        Get Personalized Advice
-                      </Link>
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Start small, stay consistent, and let time work in your favor
-                  </p>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
-        ) : (
-          <div className="space-y-6">
+          <TabsContent value="portfolio" className="mt-6">
             {/* Portfolio Summary */}
             <PortfolioSummary investments={investmentsWithProjections} />
             
@@ -192,8 +162,17 @@ const Index: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
-        )}
+          </TabsContent>
+
+          <TabsContent value="country" className="mt-6">
+            <CountryDashboard />
+          </TabsContent>
+
+          <TabsContent value="education" className="mt-6">
+            {/* Investment Education */}
+            <InvestmentEducation />
+          </TabsContent>
+        </Tabs>
       </div>
     </AppLayout>
   );

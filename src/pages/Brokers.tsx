@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import AppLayout from '@/components/AppLayout';
 import BrokerCard from '@/components/BrokerCard';
@@ -10,9 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Building2, Search, Star, TrendingUp, Filter } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useCountry } from '@/contexts/CountryContext';
 
 const Brokers: React.FC = () => {
   const { theme } = useTheme();
+  const { selectedCountry } = useCountry();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -276,7 +277,29 @@ const Brokers: React.FC = () => {
     }
   ];
 
-  const filteredBrokers = brokers.filter(broker =>
+  // Filter brokers based on selected country
+  const getCountrySpecificBrokers = () => {
+    if (!selectedCountry) return brokers;
+    
+    const countryBrokers = selectedCountry.majorBrokers.map((brokerName, index) => ({
+      id: `country_${index}`,
+      name: brokerName,
+      description: `Leading broker in ${selectedCountry.name} offering local market access and services.`,
+      rating: 4.2 + (index * 0.1),
+      minInvestment: selectedCountry.minWage * 0.1,
+      fees: `Local rates in ${selectedCountry.currency}`,
+      features: ['Local market access', `${selectedCountry.currency} trading`, 'Local support', 'Regulatory compliance'],
+      category: 'local',
+      logo: selectedCountry.flag,
+      website: `https://${brokerName.toLowerCase().replace(/\s+/g, '')}.com`
+    }));
+
+    return [...countryBrokers, ...brokers];
+  };
+
+  const displayBrokers = getCountrySpecificBrokers();
+  
+  const filteredBrokers = displayBrokers.filter(broker =>
     broker.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedCategory === 'all' || broker.category === selectedCategory)
   );
@@ -293,10 +316,16 @@ const Brokers: React.FC = () => {
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2">
             <Building2 className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold">Global Investment Brokers & Brands</h1>
+            <h1 className="text-2xl font-bold">
+              {selectedCountry ? `${selectedCountry.flag} ${selectedCountry.name} ` : 'Global '}
+              Investment Brokers & Brands
+            </h1>
           </div>
           <p className="text-muted-foreground">
-            Discover trusted platforms and investment options across Africa and internationally
+            {selectedCountry 
+              ? `Discover trusted platforms and investment options in ${selectedCountry.name} and internationally`
+              : 'Discover trusted platforms and investment options across Africa and internationally'
+            }
           </p>
         </div>
 
@@ -321,6 +350,15 @@ const Brokers: React.FC = () => {
                 >
                   All
                 </Button>
+                {selectedCountry && (
+                  <Button
+                    variant={selectedCategory === 'local' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedCategory('local')}
+                  >
+                    Local ({selectedCountry.name})
+                  </Button>
+                )}
                 <Button
                   variant={selectedCategory === 'international' ? 'default' : 'outline'}
                   size="sm"
@@ -446,42 +484,55 @@ const Brokers: React.FC = () => {
         </Card>
 
         {/* Country-Specific Information */}
-        <Card className="glass-panel">
-          <CardHeader>
-            <CardTitle>African Market Access by Country</CardTitle>
-            <CardDescription>
-              Popular brokers and investment options by African region
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <h5 className="font-medium text-primary">🇿🇦 South Africa</h5>
-                <p className="text-sm text-muted-foreground">EasyEquities, Standard Bank, Absa, International Brokers</p>
+        {selectedCountry && (
+          <Card className="glass-panel">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                {selectedCountry.flag}
+                {selectedCountry.name} Investment Landscape
+              </CardTitle>
+              <CardDescription>
+                Key information for investing in {selectedCountry.name}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold mb-3 text-primary">Market Information</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 mt-1">•</span>
+                      <span>Stock Exchange: {selectedCountry.stockExchange}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 mt-1">•</span>
+                      <span>Currency: {selectedCountry.currency}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 mt-1">•</span>
+                      <span>Tax Rate: {selectedCountry.taxRate}%</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 mt-1">•</span>
+                      <span>Regulatory Body: {selectedCountry.regulatoryBody}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-3 text-primary">Investment Incentives</h4>
+                  <ul className="space-y-2 text-sm">
+                    {selectedCountry.investmentIncentives.map((incentive, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-blue-500 mt-1">•</span>
+                        <span>{incentive}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className="space-y-2">
-                <h5 className="font-medium text-primary">🇳🇬 Nigeria</h5>
-                <p className="text-sm text-muted-foreground">Bamboo, Chaka, Trove Finance, International platforms</p>
-              </div>
-              <div className="space-y-2">
-                <h5 className="font-medium text-primary">🇰🇪 Kenya</h5>
-                <p className="text-sm text-muted-foreground">Genghis Capital, Standard Investment Bank, International brokers</p>
-              </div>
-              <div className="space-y-2">
-                <h5 className="font-medium text-primary">🇪🇬 Egypt</h5>
-                <p className="text-sm text-muted-foreground">EFG Hermes, HC Securities, International platforms</p>
-              </div>
-              <div className="space-y-2">
-                <h5 className="font-medium text-primary">🇲🇦 Morocco</h5>
-                <p className="text-sm text-muted-foreground">Attijari Intermediation, CFG Bank, International access</p>
-              </div>
-              <div className="space-y-2">
-                <h5 className="font-medium text-primary">🌍 Pan-African</h5>
-                <p className="text-sm text-muted-foreground">Interactive Brokers, eToro, Standard Bank Group</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </AppLayout>
   );
