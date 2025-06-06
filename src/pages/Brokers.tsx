@@ -20,7 +20,7 @@ const Brokers: React.FC = () => {
   const brokers = [
     // International Brokers
     {
-      id: 1,
+      id: '1',
       name: 'Interactive Brokers',
       description: 'Global leader serving 200+ countries including most African nations with low fees.',
       rating: 4.9,
@@ -32,7 +32,7 @@ const Brokers: React.FC = () => {
       website: 'https://interactivebrokers.com'
     },
     {
-      id: 2,
+      id: '2',
       name: 'TD Ameritrade',
       description: 'Trusted US broker with international access and excellent educational resources.',
       rating: 4.7,
@@ -44,7 +44,7 @@ const Brokers: React.FC = () => {
       website: 'https://tdameritrade.com'
     },
     {
-      id: 3,
+      id: '3',
       name: 'eToro',
       description: 'Social trading platform available in most African countries with copy trading.',
       rating: 4.5,
@@ -57,7 +57,7 @@ const Brokers: React.FC = () => {
     },
     // African-Focused Brokers
     {
-      id: 4,
+      id: '4',
       name: 'EasyEquities (South Africa)',
       description: 'Leading South African platform offering fractional shares and international markets.',
       rating: 4.6,
@@ -69,7 +69,7 @@ const Brokers: React.FC = () => {
       website: 'https://easyequities.co.za'
     },
     {
-      id: 5,
+      id: '5',
       name: 'Bamboo (Nigeria)',
       description: 'Nigerian fintech providing access to US stocks and real estate investments.',
       rating: 4.4,
@@ -81,7 +81,7 @@ const Brokers: React.FC = () => {
       website: 'https://bamboo.africa'
     },
     {
-      id: 6,
+      id: '6',
       name: 'Chaka (Nigeria)',
       description: 'Investment platform offering Nigerian and international market access.',
       rating: 4.3,
@@ -93,7 +93,7 @@ const Brokers: React.FC = () => {
       website: 'https://chaka.ng'
     },
     {
-      id: 7,
+      id: '7',
       name: 'Absa Stockbrokers (Multi-African)',
       description: 'Pan-African investment services across multiple African markets.',
       rating: 4.5,
@@ -105,7 +105,7 @@ const Brokers: React.FC = () => {
       website: 'https://absa.africa'
     },
     {
-      id: 8,
+      id: '8',
       name: 'Standard Bank Securities',
       description: 'Major African bank offering investment services across the continent.',
       rating: 4.4,
@@ -118,7 +118,7 @@ const Brokers: React.FC = () => {
     },
     // Robo-Advisors
     {
-      id: 9,
+      id: '9',
       name: 'Betterment',
       description: 'US robo-advisor with international access for automated portfolio management.',
       rating: 4.5,
@@ -130,7 +130,7 @@ const Brokers: React.FC = () => {
       website: 'https://betterment.com'
     },
     {
-      id: 10,
+      id: '10',
       name: 'Wealthfront',
       description: 'Advanced robo-advisor with tax-loss harvesting and financial planning.',
       rating: 4.6,

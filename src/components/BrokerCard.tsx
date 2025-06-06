@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, ExternalLink, DollarSign, Info } from 'lucide-react';
 
 interface Broker {
-  id: number;
+  id: string | number;
   name: string;
   description: string;
   rating: number;
