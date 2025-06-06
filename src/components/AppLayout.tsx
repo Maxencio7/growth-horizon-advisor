@@ -76,15 +76,16 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header with premium dark styling */}
-      <header className="bg-background border-b border-primary/20 shadow-md sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+      {/* Enhanced Header with two sections */}
+      <header className="bg-background border-b border-primary/20 shadow-lg sticky top-0 z-10">
+        {/* Top section - Brand and utilities */}
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between border-b border-primary/10">
+          <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img src="/logo.png" alt="Visionary Enterprises" className="h-10 md:h-12" />
             </Link>
             {(user || isGuest) && (
-              <div className="hidden md:block ml-4">
+              <div className="hidden lg:block">
                 <span className="text-sm text-muted-foreground">Welcome back, </span>
                 <span className="text-sm font-medium text-primary">{getUserDisplayName()}</span>
                 {isGuest && (
@@ -94,27 +95,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             )}
           </div>
           
-          {/* Desktop Navigation */}
-          {(user || isGuest) && (
-            <div className="hidden md:flex items-center space-x-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={cn(
-                    "font-medium transition-colors p-2 rounded-md",
-                    isActivePath(item.path) 
-                      ? "text-primary bg-primary/10 border-b-2 border-primary" 
-                      : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <ThemeToggle />
             <CurrencySelector />
             
@@ -137,13 +118,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 {/* User menu */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="hidden md:flex">
-                      <User className="h-4 w-4 mr-1" />
+                    <Button variant="ghost" size="sm" className="hidden md:flex hover:bg-primary/10">
+                      <User className="h-4 w-4 mr-2" />
                       <span>{isGuest ? 'Guest' : (profile?.first_name || 'User')}</span>
-                      <ChevronDown className="h-4 w-4 ml-1" />
+                      <ChevronDown className="h-4 w-4 ml-2" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="w-48">
                     {!isGuest && (
                       <>
                         <DropdownMenuItem onClick={() => navigate('/profile')}>
@@ -170,15 +151,43 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           </div>
         </div>
 
+        {/* Bottom section - Main navigation */}
+        {(user || isGuest) && (
+          <div className="container mx-auto px-4 py-4">
+            <div className="hidden md:flex items-center justify-center">
+              <nav className="flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={cn(
+                      "relative font-medium transition-all duration-300 px-4 py-2 rounded-lg group",
+                      isActivePath(item.path) 
+                        ? "text-primary bg-primary/10 shadow-md border border-primary/20" 
+                        : "text-foreground/80 hover:text-primary hover:bg-primary/5 hover:shadow-sm"
+                    )}
+                  >
+                    <span className="relative z-10">{item.name}</span>
+                    {isActivePath(item.path) && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg" />
+                    )}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
+        )}
+
         {/* Mobile dropdown menu */}
         {(user || isGuest) && isMobile && mobileMenuOpen && (
-          <div className="md:hidden bg-popover border-b border-primary/20 shadow-md">
-            <nav className="container mx-auto py-2 px-4 space-y-1">
-              <div className="py-2 px-4 border-b border-primary/20 mb-2">
+          <div className="md:hidden bg-popover border-b border-primary/20 shadow-lg">
+            <nav className="container mx-auto py-4 px-4 space-y-2">
+              <div className="py-3 px-4 border-b border-primary/20 mb-3 bg-primary/5 rounded-lg">
                 <span className="text-sm text-muted-foreground">Welcome, </span>
                 <span className="text-sm font-medium text-primary">{getUserDisplayName()}</span>
                 {isGuest && (
-                  <span className="text-xs text-muted-foreground block">(Guest Mode)</span>
+                  <span className="text-xs text-muted-foreground block mt-1">(Guest Mode)</span>
                 )}
               </div>
               {navItems.map((item) => (
@@ -186,9 +195,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "block py-2 px-4 rounded-md transition-colors",
+                    "block py-3 px-4 rounded-lg transition-all duration-300",
                     isActivePath(item.path)
-                      ? "bg-primary/10 text-primary" 
+                      ? "bg-primary/10 text-primary border border-primary/20 shadow-sm" 
                       : "text-foreground/80 hover:bg-primary/5 hover:text-primary"
                   )}
                   onClick={() => setMobileMenuOpen(false)}
@@ -196,14 +205,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t border-primary/20 pt-2 mt-2">
+              <div className="border-t border-primary/20 pt-3 mt-4 space-y-2">
                 {!isGuest && (
                   <button
                     onClick={() => {
                       navigate('/profile');
                       setMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                    className="block w-full text-left py-3 px-4 rounded-lg transition-all duration-300 text-foreground/80 hover:bg-primary/5 hover:text-primary"
                   >
                     Profile Settings
                   </button>
@@ -214,7 +223,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                       navigate('/auth');
                       setMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                    className="block w-full text-left py-3 px-4 rounded-lg transition-all duration-300 text-foreground/80 hover:bg-primary/5 hover:text-primary"
                   >
                     Sign Up / Sign In
                   </button>
@@ -224,7 +233,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                     handleSignOut();
                     setMobileMenuOpen(false);
                   }}
-                  className="block w-full text-left py-2 px-4 rounded-md transition-colors text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                  className="block w-full text-left py-3 px-4 rounded-lg transition-all duration-300 text-foreground/80 hover:bg-primary/5 hover:text-primary"
                 >
                   {isGuest ? 'Exit Guest Mode' : 'Sign Out'}
                 </button>
