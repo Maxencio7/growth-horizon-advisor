@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, User } from 'lucide-react';
@@ -11,6 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import LoadingPage from '@/components/LoadingPage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import ThemeToggle from '@/components/ThemeToggle';
+import NotificationBell from '@/components/NotificationBell';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,6 +52,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { name: 'AI Advisor', path: '/advisor' },
     { name: 'Brokers & Brands', path: '/brokers' },
     { name: 'Calculators', path: '/calculators' },
+    { name: 'Notifications', path: '/notifications' },
     { name: 'User Guide', path: '/guide' },
   ];
 
@@ -101,6 +102,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             
             {(user || isGuest) && (
               <>
+                <NotificationBell />
+                
                 {/* Mobile menu button */}
                 {isMobile && (
                   <Button 
